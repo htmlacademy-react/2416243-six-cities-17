@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Sergei Pozdeev](https://up.htmlacademy.ru/react/17/user/2416243).
-* Наставник: `Неизвестно`.
+* Наставник: [Василий Петрухин](https://htmlacademy.ru/profile/id1528403).
 
 ---
 
