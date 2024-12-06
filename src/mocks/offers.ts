@@ -1,17 +1,22 @@
-import {Offer} from '../types/offer.ts';
+import {OfferType} from '../types/offer.ts';
 
-export const offers: Offer [] = [
+export const offers: OfferType [] = [
   {
     id: '1',
     title: 'Beautiful &amp; luxurious apartment at great location',
     type: 'apartment',
     price: 120,
-    image: 'img/apartment-01.jpg',
+    previewImage: 'img/apartment-01.jpg',
     rating: 4,
     isFavorite: false,
     isPremium: true,
     city: {
-      name: 'Amsterdam'
+      name: 'Amsterdam',
+      location: {
+        latitude: 50.846557,
+        longitude: 4.351697,
+        zoom: 13,
+      },
     }
   },
   {
@@ -19,12 +24,17 @@ export const offers: Offer [] = [
     title: 'Wood and stone place',
     type: 'room',
     price: 80,
-    image: 'img/room.jpg',
+    previewImage: 'img/room.jpg',
     rating: 4,
     isFavorite: true,
     isPremium: false,
     city: {
-      name: 'Amsterdam'
+      name: 'Amsterdam',
+      location: {
+        latitude: 50.846557,
+        longitude: 4.351697,
+        zoom: 13,
+      },
     }
   },
   {
@@ -32,12 +42,17 @@ export const offers: Offer [] = [
     title: 'Canal View Prinsengracht',
     type: 'apartment',
     price: 132,
-    image: 'img/apartment-02.jpg',
+    previewImage: 'img/apartment-02.jpg',
     rating: 4,
     isFavorite: false,
     isPremium: false,
     city: {
-      name: 'Amsterdam'
+      name: 'Amsterdam',
+      location: {
+        latitude: 50.846557,
+        longitude: 4.351697,
+        zoom: 13,
+      },
     }
   },
   {
@@ -45,12 +60,17 @@ export const offers: Offer [] = [
     title: 'Nice, cozy, warm big bed apartment',
     type: 'apartment',
     price: 180,
-    image: 'img/apartment-02.jpg',
+    previewImage: 'img/apartment-03.jpg',
     rating: 5,
     isFavorite: false,
     isPremium: true,
     city: {
-      name: 'Amsterdam'
+      name: 'Amsterdam',
+      location: {
+        latitude: 50.846557,
+        longitude: 4.351697,
+        zoom: 13,
+      },
     }
   }
 ];

@@ -2,12 +2,15 @@ import {CitiesPlacesList} from '../../components/cities-places-list/cities-place
 import {CitiesMap} from '../../components/cities-map/cities-map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
+import {OfferType} from '../../types/offer.ts';
+import {PlaceCardType} from '../../const.ts';
 
 interface MainPageProps {
-  cityCount: number;
+  offers: OfferType[];
+  offerMouseOverHandler: (id: string) => void;
 }
 
-export function MainPage({cityCount}: Readonly<MainPageProps>) {
+export function MainPage({offers, offerMouseOverHandler}: Readonly<MainPageProps>) {
   return (
     <div className="page page--gray page--main">
       <Header/>
@@ -17,7 +20,11 @@ export function MainPage({cityCount}: Readonly<MainPageProps>) {
         <CitiesLocationList/>
         <div className="cities">
           <div className="cities__places-container container">
-            <CitiesPlacesList cityCount={cityCount}/>
+            <CitiesPlacesList
+              offers={offers}
+              cardType={PlaceCardType.Main}
+              offerMouseOverHandler={offerMouseOverHandler}
+            />
             <div className="cities__right-section">
               <CitiesMap/>
             </div>

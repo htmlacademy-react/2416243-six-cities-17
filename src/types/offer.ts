@@ -1,15 +1,22 @@
-export type City = {
-  name: string;
+export type LocationType = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
 }
 
-export type Offer = {
+export type CityType = {
+  name: string;
+  location: LocationType;
+}
+
+export type OfferType = {
   id: string;
   title: string;
   type: string;
   price: number;
-  image: string;
+  previewImage: string;
   rating: number;
   isFavorite: boolean;
   isPremium: boolean;
-  city: City;
+  city: CityType;
 };

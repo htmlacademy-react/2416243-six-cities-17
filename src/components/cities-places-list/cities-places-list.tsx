@@ -1,12 +1,14 @@
 import {CitiesCard} from '../cities-card/cities-card.tsx';
+import {OfferType} from '../../types/offer.ts';
+import {PlaceCardType} from '../../const.ts';
 
 interface CitiesPlacesListProps {
-  cityCount: number;
+  offers: OfferType[];
+  cardType: PlaceCardType;
+  offerMouseOverHandler: ((id: string) => void);
 }
 
-export function CitiesPlacesList({cityCount}: Readonly<CitiesPlacesListProps>) {
-  let cityIndex = 1;
-  const cityCards = Array.from({length: cityCount}).map(() => <CitiesCard key={cityIndex++}/>);
+export function CitiesPlacesList({offers, cardType, offerMouseOverHandler}: Readonly<CitiesPlacesListProps>) {
 
   return (
     <section className="cities__places places">
@@ -28,7 +30,7 @@ export function CitiesPlacesList({cityCount}: Readonly<CitiesPlacesListProps>) {
         </ul>
       </form>
       <div className="cities__places-list places__list tabs__content">
-        {cityCards}
+        {offers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={cardType} offerMouseOverHandler={offerMouseOverHandler}/>)}
       </div>
     </section>
   );
