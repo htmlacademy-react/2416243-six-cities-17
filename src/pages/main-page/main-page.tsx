@@ -7,10 +7,10 @@ import {PlaceCardType} from '../../const.ts';
 
 interface MainPageProps {
   offers: OfferType[];
-  offerMouseOverHandler: (id: string) => void;
+  onOfferMouseOver: (id: string) => void;
 }
 
-export function MainPage({offers, offerMouseOverHandler}: Readonly<MainPageProps>) {
+export function MainPage({offers, onOfferMouseOver}: Readonly<MainPageProps>) {
   return (
     <div className="page page--gray page--main">
       <Header/>
@@ -23,7 +23,7 @@ export function MainPage({offers, offerMouseOverHandler}: Readonly<MainPageProps
             <CitiesPlacesList
               offers={offers}
               cardType={PlaceCardType.Main}
-              offerMouseOverHandler={offerMouseOverHandler}
+              onOfferMouseOver={onOfferMouseOver}
             />
             <div className="cities__right-section">
               <CitiesMap/>

@@ -6,10 +6,10 @@ import {PlaceCardType} from '../../const.ts';
 
 interface FavoritesPageProps {
   offers: OfferType[];
-  offerMouseOverHandler: (id: string) => void;
+  onOfferMouseOver: (id: string) => void;
 }
 
-export function FavoritesPage({offers, offerMouseOverHandler}: Readonly<FavoritesPageProps>) {
+export function FavoritesPage({offers, onOfferMouseOver}: Readonly<FavoritesPageProps>) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -30,7 +30,7 @@ export function FavoritesPage({offers, offerMouseOverHandler}: Readonly<Favorite
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoriteOffers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={PlaceCardType.Favorites} offerMouseOverHandler={offerMouseOverHandler}/>)}
+                  {favoriteOffers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={PlaceCardType.Favorites} onOfferMouseOver={onOfferMouseOver}/>)}
                 </div>
               </li>
 

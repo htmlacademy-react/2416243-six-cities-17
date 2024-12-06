@@ -5,10 +5,10 @@ import {PlaceCardType} from '../../const.ts';
 interface CitiesPlacesListProps {
   offers: OfferType[];
   cardType: PlaceCardType;
-  offerMouseOverHandler: ((id: string) => void);
+  onOfferMouseOver: ((id: string) => void);
 }
 
-export function CitiesPlacesList({offers, cardType, offerMouseOverHandler}: Readonly<CitiesPlacesListProps>) {
+export function CitiesPlacesList({offers, cardType, onOfferMouseOver}: Readonly<CitiesPlacesListProps>) {
 
   return (
     <section className="cities__places places">
@@ -30,7 +30,7 @@ export function CitiesPlacesList({offers, cardType, offerMouseOverHandler}: Read
         </ul>
       </form>
       <div className="cities__places-list places__list tabs__content">
-        {offers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={cardType} offerMouseOverHandler={offerMouseOverHandler}/>)}
+        {offers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={cardType} onOfferMouseOver={onOfferMouseOver}/>)}
       </div>
     </section>
   );

@@ -15,7 +15,7 @@ interface AppProps {
 
 export function App({offers}: Readonly<AppProps>) {
   const [activeCard, setActiveCard] = useState({id: '0'});
-  const offerMouseOverHandler = (id: string) => {
+  const handleOfferMouseOver = (id: string) => {
     setActiveCard({
       ...activeCard,
       id: id
@@ -27,7 +27,7 @@ export function App({offers}: Readonly<AppProps>) {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage offers={offers} offerMouseOverHandler={offerMouseOverHandler}/>}
+          element={<MainPage offers={offers} onOfferMouseOver={handleOfferMouseOver}/>}
         />
 
         <Route
@@ -45,7 +45,7 @@ export function App({offers}: Readonly<AppProps>) {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <FavoritesPage offers={offers} offerMouseOverHandler={offerMouseOverHandler}/>
+              <FavoritesPage offers={offers} onOfferMouseOver={handleOfferMouseOver}/>
             </PrivateRoute>
           }
         />
