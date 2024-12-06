@@ -1,28 +1,38 @@
 import {Reviews} from '../reviews/reviews.tsx';
+import {OfferType} from '../../types/offer.ts';
+import {starLength} from '../../const.ts';
 
-export function OfferDetails() {
+interface OfferDetailsProps {
+  offer: OfferType;
+}
+
+export function OfferDetails({offer}: Readonly<OfferDetailsProps>) {
+  const {title, price, rating, isFavorite, isPremium} = offer;
+  const bookmarkButtonClass = isFavorite
+    ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
+    : 'place-card__bookmark-button button';
+  const placeRating = `${rating * starLength}%`;
+
   return (
     <div className="offer__wrapper">
-      <div className="offer__mark">
-        <span>Premium</span>
-      </div>
+      {isPremium ? <div className="offer__mark"><span>Premium</span></div> : ''}
       <div className="offer__name-wrapper">
         <h1 className="offer__name">
-          Beautiful &amp; luxurious studio at great location
+          {title}
         </h1>
-        <button className="offer__bookmark-button button" type="button">
+        <button className={bookmarkButtonClass} type="button">
           <svg className="offer__bookmark-icon" width="31" height="33">
             <use xlinkHref="#icon-bookmark"></use>
           </svg>
-          <span className="visually-hidden">To bookmarks</span>
+          <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
         </button>
       </div>
       <div className="offer__rating rating">
         <div className="offer__stars rating__stars">
-          <span style={{width: '80%'}}></span>
+          <span style={{width: placeRating}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
-        <span className="offer__rating-value rating__value">4.8</span>
+        <span className="offer__rating-value rating__value">{rating}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
@@ -36,7 +46,7 @@ export function OfferDetails() {
         </li>
       </ul>
       <div className="offer__price">
-        <b className="offer__price-value">&euro;120</b>
+        <b className="offer__price-value">&euro;{price}</b>
         <span className="offer__price-text">&nbsp;night</span>
       </div>
       <div className="offer__inside">
@@ -78,7 +88,9 @@ export function OfferDetails() {
         <h2 className="offer__host-title">Meet the host</h2>
         <div className="offer__host-user user">
           <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-            <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+            <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74"
+              alt="Host avatar"
+            />
           </div>
           <span className="offer__user-name">
             Angelina
