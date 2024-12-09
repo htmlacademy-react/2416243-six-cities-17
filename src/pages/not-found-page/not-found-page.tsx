@@ -1,9 +1,9 @@
 import {Header} from '../../components/header/header.tsx';
-import './error-page.css';
+import './not-found-page.css';
 import {Link} from 'react-router';
 import {AppRoute} from '../../const.ts';
 
-export function ErrorPage() {
+export function NotFoundPage() {
   return (
     <div className="page--gray page--error">
       <Header/>
