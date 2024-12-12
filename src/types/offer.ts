@@ -19,4 +19,5 @@ export type OfferType = {
   isFavorite: boolean;
   isPremium: boolean;
   city: CityType;
+  location: LocationType;
 };

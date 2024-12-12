@@ -5,10 +5,11 @@ import {Link} from 'react-router';
 interface CitiesCardProps {
   offer: OfferType;
   cardType: PlaceCardType;
-  onOfferMouseOver: (id: string) => void;
+  onOfferClick: (id: string) => void;
+  onOfferHover: (offerItem?: OfferType) => void;
 }
 
-export function CitiesCard({offer, cardType, onOfferMouseOver}: Readonly<CitiesCardProps>) {
+export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readonly<CitiesCardProps>) {
   const {id, title, price, type, previewImage, isPremium, isFavorite, rating} = offer;
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
@@ -42,8 +43,9 @@ export function CitiesCard({offer, cardType, onOfferMouseOver}: Readonly<CitiesC
     <article
       className={`${articleClass} place-card`}
       id={`offer-${id}`}
-      onMouseOver={() => onOfferMouseOver(id)}
-      onFocus={() => onOfferMouseOver(id)}
+      onClick={() => onOfferClick(id)}
+      onMouseEnter={() => onOfferHover(offer)}
+      onFocus={() => onOfferHover(offer)}
     >
       {isPremium
         ? <div className="place-card__mark"><span>Premium</span></div>

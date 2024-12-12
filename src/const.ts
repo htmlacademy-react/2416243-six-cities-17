@@ -1,4 +1,5 @@
 import {RatingType} from './types/rating.ts';
+import {MapIconsType} from './types/map.ts';
 
 export enum AppRoute {
   Main = '/',
@@ -33,4 +34,17 @@ export const Rating: RatingType = {
   'not bad': 3,
   'badly': 2,
   'terribly': 1
+};
+
+export const MapIcon: MapIconsType = {
+  Default: {
+    iconUrl: 'img/pin.svg',
+    iconSize: [27, 39],
+    iconAnchor: [13.5, 39],
+  },
+  Active: {
+    iconUrl: 'img/pin-active.svg',
+    iconSize: [27, 39],
+    iconAnchor: [13.5, 39]
+  },
 };

@@ -6,10 +6,11 @@ import {PlaceCardType} from '../../const.ts';
 
 interface FavoritesPageProps {
   offers: OfferType[];
-  onOfferMouseOver: (id: string) => void;
+  onOfferClick: (id: string) => void;
+  onOfferHover: (offerItem?: OfferType) => void;
 }
 
-export function FavoritesPage({offers, onOfferMouseOver}: Readonly<FavoritesPageProps>) {
+export function FavoritesPage({offers, onOfferClick, onOfferHover}: Readonly<FavoritesPageProps>) {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
@@ -30,7 +31,15 @@ export function FavoritesPage({offers, onOfferMouseOver}: Readonly<FavoritesPage
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoriteOffers.map((offer) => <CitiesCard key={offer.id} offer={offer} cardType={PlaceCardType.Favorites} onOfferMouseOver={onOfferMouseOver}/>)}
+                  {favoriteOffers.map((offer) => (
+                    <CitiesCard
+                      key={offer.id}
+                      offer={offer}
+                      cardType={PlaceCardType.Favorites}
+                      onOfferClick={onOfferClick}
+                      onOfferHover={onOfferHover}
+                    />
+                  ))}
                 </div>
               </li>
 
@@ -46,7 +55,9 @@ export function FavoritesPage({offers, onOfferMouseOver}: Readonly<FavoritesPage
                   <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <a href="#">
-                        <img className="place-card__image" src="img/apartment-small-04.jpg" width="150" height="110" alt="Place image"/>
+                        <img className="place-card__image" src="img/apartment-small-04.jpg" width="150" height="110"
+                          alt="Place image"
+                        />
                       </a>
                     </div>
                     <div className="favorites__card-info place-card__info">
@@ -55,7 +66,9 @@ export function FavoritesPage({offers, onOfferMouseOver}: Readonly<FavoritesPage
                           <b className="place-card__price-value">&euro;180</b>
                           <span className="place-card__price-text">&#47;&nbsp;night</span>
                         </div>
-                        <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                        <button className="place-card__bookmark-button place-card__bookmark-button--active button"
+                          type="button"
+                        >
                           <svg className="place-card__bookmark-icon" width="18" height="19">
                             <use xlinkHref="#icon-bookmark"></use>
                           </svg>

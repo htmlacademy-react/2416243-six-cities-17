@@ -14,12 +14,21 @@ interface AppProps {
 }
 
 export function App({offers}: Readonly<AppProps>) {
-  const [activeCard, setActiveCard] = useState({id: '0'});
-  const handleOfferMouseOver = (id: string) => {
-    setActiveCard({
-      ...activeCard,
+  const [currentOffer, setCurrentOffer] = useState({id: '0'});
+  const [activeCard, setActiveCard] = useState<OfferType | undefined>(undefined);
+
+  const handleOfferClick = (id: string) => {
+    setCurrentOffer({
+      ...currentOffer,
       id: id
     });
+  };
+
+  const handleOfferHover = (offerItem?: OfferType) => {
+    const currentPoint = offers.find((offer) =>
+      offer.title === offerItem?.title
+    );
+    setActiveCard(currentPoint);
   };
 
   return (
@@ -27,7 +36,13 @@ export function App({offers}: Readonly<AppProps>) {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage offers={offers} onOfferMouseOver={handleOfferMouseOver}/>}
+          element={
+            <MainPage offers={offers}
+              onOfferClick={handleOfferClick}
+              onOfferHover={handleOfferHover}
+              activeCard={activeCard}
+            />
+          }
         />
 
         <Route
@@ -45,7 +60,7 @@ export function App({offers}: Readonly<AppProps>) {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <FavoritesPage offers={offers} onOfferMouseOver={handleOfferMouseOver}/>
+              <FavoritesPage offers={offers} onOfferClick={handleOfferClick} onOfferHover={handleOfferHover}/>
             </PrivateRoute>
           }
         />
