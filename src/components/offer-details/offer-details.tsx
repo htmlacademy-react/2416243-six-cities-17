@@ -1,12 +1,14 @@
 import {Reviews} from '../reviews/reviews.tsx';
 import {OfferType} from '../../types/offer.ts';
 import {starLength} from '../../const.ts';
+import {Review} from '../../types/reviews.ts';
 
 interface OfferDetailsProps {
   offer: OfferType;
+  reviews: Review[];
 }
 
-export function OfferDetails({offer}: Readonly<OfferDetailsProps>) {
+export function OfferDetails({offer, reviews}: Readonly<OfferDetailsProps>) {
   const {title, price, rating, isFavorite, isPremium} = offer;
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
@@ -110,7 +112,7 @@ export function OfferDetails({offer}: Readonly<OfferDetailsProps>) {
           </p>
         </div>
       </div>
-      <Reviews/>
+      <Reviews reviews={reviews}/>
     </div>
   );
 }

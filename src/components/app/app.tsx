@@ -50,7 +50,13 @@ export function App({offers}: Readonly<AppProps>) {
         >
           <Route
             path={AppRoute.OfferId}
-            element={<OfferPage offers={offers}/>}
+            element={
+              <OfferPage offers={offers}
+                onOfferClick={handleOfferClick}
+                onOfferHover={handleOfferHover}
+                activeCard={activeCard}
+              />
+            }
           />
         </Route>
 
