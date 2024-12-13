@@ -1,5 +1,6 @@
 import {RatingType} from './types/rating.ts';
 import {MapIconsType} from './types/map.ts';
+import {CityType} from './types/offer.ts';
 
 export enum AppRoute {
   Main = '/',
@@ -47,4 +48,18 @@ export const MapIcon: MapIconsType = {
     iconSize: [27, 39],
     iconAnchor: [13.5, 39]
   },
+};
+
+export const cityRef: CityType = {
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.3809553943508,
+    longitude: 4.85309666406198,
+    zoom: 14
+  }
+};
+
+export const DateFormat = {
+  DATE: 'YYYY-MM-DD',
+  MONTH_YEAR: 'MMMM YYYY'
 };
