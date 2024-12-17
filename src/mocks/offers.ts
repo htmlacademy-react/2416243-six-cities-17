@@ -92,5 +92,51 @@ export const offers: OfferType [] = [
       longitude: 4.939309666406198,
       zoom: 14,
     }
+  },
+  {
+    id: '4',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'apartment',
+    price: 180,
+    previewImage: 'img/apartment-03.jpg',
+    rating: 5,
+    isFavorite: false,
+    isPremium: true,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8566,
+        longitude: 2.3522,
+        zoom: 14,
+      },
+    },
+    location: {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      zoom: 14,
+    }
+  },
+  {
+    id: '4',
+    title: 'Nice, cozy, warm big bed apartment',
+    type: 'apartment',
+    price: 180,
+    previewImage: 'img/apartment-03.jpg',
+    rating: 5,
+    isFavorite: false,
+    isPremium: true,
+    city: {
+      name: 'Brussels',
+      location: {
+        latitude: 50.8603,
+        longitude: 4.4517,
+        zoom: 14,
+      },
+    },
+    location: {
+      latitude: 50.8603,
+      longitude: 4.4517,
+      zoom: 14,
+    }
   }
 ];

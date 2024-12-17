@@ -1,38 +1,29 @@
-export function CitiesLocationList() {
+import {store} from '../../store';
+import {Cities} from '../../const.ts';
+import {CityType} from '../../types/offer.ts';
+import {Link} from 'react-router';
+
+interface CitiesLocationListProps {
+  onCityLocationClick: (city: CityType) => void;
+}
+
+export function CitiesLocationList({onCityLocationClick}: Readonly<CitiesLocationListProps>) {
+  const currentCity = store.getState().city.name;
+
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Paris</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Cologne</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Brussels</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item tabs__item--active">
-              <span>Amsterdam</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Hamburg</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Dusseldorf</span>
-            </a>
-          </li>
+          {Object.values(Cities).map((city) => (
+            <li className="locations__item" key={city.name} onClick={() => {
+              onCityLocationClick(city);
+            }}
+            >
+              <Link className={`locations__item-link tabs__item ${currentCity === city.name ? 'tabs__item--active' : ''}`} to={''}>
+                <span>{city.name}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
     </div>
