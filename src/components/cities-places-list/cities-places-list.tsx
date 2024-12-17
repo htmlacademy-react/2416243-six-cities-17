@@ -1,5 +1,5 @@
 import {CitiesCard} from '../cities-card/cities-card.tsx';
-import {OfferType} from '../../types/offer.ts';
+import {CityType, OfferType} from '../../types/offer.ts';
 import {PlaceCardType} from '../../const.ts';
 
 interface CitiesPlacesListProps {
@@ -7,14 +7,21 @@ interface CitiesPlacesListProps {
   cardType: PlaceCardType;
   onOfferClick: ((id: string) => void);
   onOfferHover: (offerItem?: OfferType) => void;
+  city: CityType;
 }
 
-export function CitiesPlacesList({offers, cardType, onOfferClick, onOfferHover}: Readonly<CitiesPlacesListProps>) {
+export function CitiesPlacesList({
+  offers,
+  cardType,
+  onOfferClick,
+  onOfferHover,
+  city
+}: Readonly<CitiesPlacesListProps>) {
 
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">312 places to stay in Amsterdam</b>
+      <b className="places__found">{offers.length} places to stay in {city.name}</b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
         <span className="places__sorting-type" tabIndex={0}>

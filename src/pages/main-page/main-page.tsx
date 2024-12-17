@@ -2,8 +2,11 @@ import {CitiesPlacesList} from '../../components/cities-places-list/cities-place
 import {Map} from '../../components/map/map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
-import {OfferType} from '../../types/offer.ts';
-import {cityRef, PlaceCardType} from '../../const.ts';
+import {CityType, OfferType} from '../../types/offer.ts';
+import {AppRoute, PlaceCardType} from '../../const.ts';
+import {changeCity} from '../../store/action.ts';
+import {useNavigate} from 'react-router';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
 interface MainPageProps {
   offers: OfferType[];
@@ -13,6 +16,16 @@ interface MainPageProps {
 }
 
 export function MainPage({offers, onOfferClick, onOfferHover, activeCard}: Readonly<MainPageProps>) {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const currentCity = useAppSelector((state) => state.city);
+  const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
+
+  const handleCitiesLocationClick = (city: CityType) => {
+    dispatch(changeCity(city));
+    navigate(AppRoute.Main);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -20,18 +33,23 @@ export function MainPage({offers, onOfferClick, onOfferHover, activeCard}: Reado
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <CitiesLocationList/>
+        <CitiesLocationList onCityLocationClick={handleCitiesLocationClick}/>
         <div className="cities">
           <div className="cities__places-container container">
             <CitiesPlacesList
-              offers={offers}
+              city={currentCity}
+              offers={offersInCurrentCity}
               cardType={PlaceCardType.Main}
               onOfferClick={onOfferClick}
               onOfferHover={onOfferHover}
             />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={cityRef} offers={offers} activeCard={activeCard}/>
+                <Map
+                  city={currentCity}
+                  offers={offersInCurrentCity}
+                  activeCard={activeCard}
+                />
               </section>
             </div>
           </div>
