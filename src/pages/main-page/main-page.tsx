@@ -4,10 +4,9 @@ import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
 import {CityType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType} from '../../const.ts';
-import {store} from '../../store';
 import {changeCity} from '../../store/action.ts';
 import {useNavigate} from 'react-router';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
 interface MainPageProps {
   offers: OfferType[];
@@ -20,7 +19,7 @@ export function MainPage({offers, onOfferClick, onOfferHover, activeCard}: Reado
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const currentCity = store.getState().city;
+  const currentCity = useAppSelector((state) => state.city);
   const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
 
   const handleCitiesLocationClick = (city: CityType) => {
