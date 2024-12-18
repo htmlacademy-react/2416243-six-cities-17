@@ -4,26 +4,27 @@ import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
 import {CityType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType} from '../../const.ts';
-import {changeCity} from '../../store/action.ts';
+import {changeCity, resetSorting} from '../../store/action.ts';
 import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
 interface MainPageProps {
-  offers: OfferType[];
   onOfferClick: (id: string) => void;
   onOfferHover: (offerItem?: OfferType) => void;
   activeCard: OfferType | undefined;
 }
 
-export function MainPage({offers, onOfferClick, onOfferHover, activeCard}: Readonly<MainPageProps>) {
+export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<MainPageProps>) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
   const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
 
   const handleCitiesLocationClick = (city: CityType) => {
     dispatch(changeCity(city));
+    dispatch(resetSorting());
     navigate(AppRoute.Main);
   };
 
