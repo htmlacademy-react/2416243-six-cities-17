@@ -37,7 +37,7 @@ export function App({offers}: Readonly<AppProps>) {
         <Route
           path={AppRoute.Main}
           element={
-            <MainPage offers={offers}
+            <MainPage
               onOfferClick={handleOfferClick}
               onOfferHover={handleOfferHover}
               activeCard={activeCard}
