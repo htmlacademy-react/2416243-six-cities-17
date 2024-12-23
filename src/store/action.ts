@@ -7,7 +7,8 @@ export const Action = {
   CHANGE_SORTING: 'CHANGE_SORTING',
   OPEN_SORTING: 'OPEN_SORTING',
   CLOSE_SORTING: 'CLOSE_SORTING',
-  RESET_SORTING: 'RESET_SORTING'
+  RESET_SORTING: 'RESET_SORTING',
+  SET_OFFERS_LOADING_STATUS: 'SET_OFFERS_LOADING_STATUS'
 };
 
 export const loadOffers = createAction<OfferType[]>(Action.LOAD_OFFERS);
@@ -20,3 +21,4 @@ export const changeSorting = createAction(Action.CHANGE_SORTING, (currentSorting
 export const openSorting = createAction(Action.OPEN_SORTING);
 export const closeSorting = createAction(Action.CLOSE_SORTING);
 export const resetSorting = createAction(Action.RESET_SORTING);
+export const setOffersLoadingStatus = createAction<boolean>(Action.SET_OFFERS_LOADING_STATUS);

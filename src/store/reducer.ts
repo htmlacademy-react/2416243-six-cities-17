@@ -1,14 +1,31 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {Cities, Sorts} from '../const.ts';
-import {offers} from '../mocks/offers.ts';
-import {changeCity, changeSorting, closeSorting, loadOffers, openSorting, resetSorting} from './action.ts';
+import {
+  changeCity,
+  changeSorting,
+  closeSorting,
+  loadOffers,
+  openSorting,
+  resetSorting,
+  setOffersLoadingStatus
+} from './action.ts';
 import {placeSorting} from '../utlis/place-sorting.ts';
+import {CityType, OfferType} from '../types/offer.ts';
 
-const initialState = {
+type InitialState = {
+  city: CityType;
+  offers: OfferType[];
+  sort: string;
+  isSortingOpen: boolean;
+  isOffersLoading: boolean;
+}
+
+const initialState: InitialState = {
   city: Cities.PARIS,
-  offers: offers,
+  offers: [],
   sort: Sorts.POPULAR,
-  isSortingOpen: false
+  isSortingOpen: false,
+  isOffersLoading: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -21,7 +38,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeSorting, (state, action) => {
       state.sort = action.payload;
-      state.offers = placeSorting[action.payload]([...offers]);
+      state.offers = placeSorting[action.payload]([...state.offers]);
     })
     .addCase(openSorting, (state) => {
       state.isSortingOpen = true;
@@ -31,5 +48,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetSorting, (state) => {
       state.sort = Sorts.POPULAR;
+    })
+    .addCase(setOffersLoadingStatus, (state, action) => {
+      state.isOffersLoading = action.payload;
     });
 });
