@@ -8,14 +8,13 @@ import {FavoritesPage} from '../../pages/favorites-page/favorites-page.tsx';
 import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {OfferType} from '../../types/offer.ts';
 import {useState} from 'react';
+import {useAppSelector} from '../../hooks';
 
-interface AppProps {
-  offers: OfferType[];
-}
-
-export function App({offers}: Readonly<AppProps>) {
+export function App() {
   const [currentOffer, setCurrentOffer] = useState({id: '0'});
   const [activeCard, setActiveCard] = useState<OfferType | undefined>(undefined);
+
+  const offers = useAppSelector((state) => state.offers);
 
   const handleOfferClick = (id: string) => {
     setCurrentOffer({
@@ -26,7 +25,7 @@ export function App({offers}: Readonly<AppProps>) {
 
   const handleOfferHover = (offerItem?: OfferType) => {
     const currentPoint = offers.find((offer) =>
-      offer.title === offerItem?.title
+      offer.id === offerItem?.id
     );
     setActiveCard(currentPoint);
   };

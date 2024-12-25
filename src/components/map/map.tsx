@@ -29,7 +29,7 @@ export function Map({city, offers, activeCard}: Readonly<MapProps>) {
         });
 
         marker.setIcon(
-          activeCard !== undefined && offer.title === activeCard.title
+          activeCard !== undefined && offer.id === activeCard.id
             ? currentCustomIcon
             : defaultCustomIcon
         ).addTo(markerLayer);
