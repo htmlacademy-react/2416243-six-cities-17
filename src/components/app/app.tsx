@@ -1,6 +1,6 @@
 import {MainPage} from '../../pages/main-page/main-page.tsx';
 import {BrowserRouter, Route, Routes} from 'react-router';
-import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {AppRoute} from '../../const.ts';
 import {LoginPage} from '../../pages/login-page/login-page.tsx';
 import {NotFoundPage} from '../../pages/not-found-page/not-found-page.tsx';
 import {PrivateRoute} from '../private-route/private-route.tsx';
@@ -11,6 +11,8 @@ import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
 
 export function App() {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   const [currentOffer, setCurrentOffer] = useState({id: '0'});
   const [activeCard, setActiveCard] = useState<OfferType | undefined>(undefined);
 
@@ -63,9 +65,13 @@ export function App() {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
+              authorizationStatus={authorizationStatus}
             >
-              <FavoritesPage offers={offers} onOfferClick={handleOfferClick} onOfferHover={handleOfferHover}/>
+              <FavoritesPage
+                offers={offers}
+                onOfferClick={handleOfferClick}
+                onOfferHover={handleOfferHover}
+              />
             </PrivateRoute>
           }
         />

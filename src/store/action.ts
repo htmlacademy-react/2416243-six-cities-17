@@ -10,7 +10,8 @@ export const Action = {
   CLOSE_SORTING: 'CLOSE_SORTING',
   RESET_SORTING: 'RESET_SORTING',
   SET_OFFERS_LOADING_STATUS: 'SET_OFFERS_LOADING_STATUS',
-  REQUIRE_AUTH: 'REQUIRE_AUTH'
+  REQUIRE_AUTH: 'REQUIRE_AUTH',
+  SET_ERROR: 'SET_ERROR'
 };
 
 export const loadOffers = createAction<OfferType[]>(Action.LOAD_OFFERS);
@@ -25,3 +26,4 @@ export const closeSorting = createAction(Action.CLOSE_SORTING);
 export const resetSorting = createAction(Action.RESET_SORTING);
 export const setOffersLoadingStatus = createAction<boolean>(Action.SET_OFFERS_LOADING_STATUS);
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTH);
+export const setError = createAction<string | null>(Action.SET_ERROR);

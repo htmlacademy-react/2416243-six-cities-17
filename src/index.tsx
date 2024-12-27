@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom/client';
 import {App} from './components/app/app.tsx';
 import {Provider} from 'react-redux';
 import {store} from './store';
-import {fetchOffersAction} from './store/api-actions.ts';
+import {checkAuthorizationAction, fetchOffersAction} from './store/api-actions.ts';
+import {ErrorMessage} from './components/error-message/error-message.tsx';
 
 store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthorizationAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +16,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorMessage/>
+      <App/>
     </Provider>
   </React.StrictMode>
 );
