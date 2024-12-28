@@ -4,13 +4,14 @@ import {
   changeCity,
   changeSorting,
   closeSorting,
-  loadOffers,
+  loadOffers, loadUserData,
   openSorting, requireAuthorization,
   resetSorting, setError,
   setOffersLoadingStatus
 } from './action.ts';
 import {placeSorting} from '../utlis/place-sorting.ts';
 import {CityType, OfferType} from '../types/offer.ts';
+import {UserData} from '../types/user-data.ts';
 
 type InitialState = {
   city: CityType;
@@ -20,6 +21,7 @@ type InitialState = {
   isOffersLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
+  user: UserData | null;
 }
 
 const initialState: InitialState = {
@@ -29,7 +31,8 @@ const initialState: InitialState = {
   isSortingOpen: false,
   isOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
-  error: null
+  error: null,
+  user: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -61,5 +64,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
+    })
+    .addCase(loadUserData, (state, action) => {
+      state.user = action.payload;
     });
 });
