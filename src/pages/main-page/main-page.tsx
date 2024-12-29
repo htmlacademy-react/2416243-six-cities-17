@@ -2,7 +2,7 @@ import {CitiesPlacesList} from '../../components/cities-places-list/cities-place
 import {Map} from '../../components/map/map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
-import {CityType, OfferType} from '../../types/offer.ts';
+import {CityType, OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType} from '../../const.ts';
 import {changeCity, resetSorting} from '../../store/action.ts';
 import {useNavigate} from 'react-router';
@@ -10,8 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Loader} from '../../components/loader/loader.tsx';
 
 interface MainPageProps {
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
   activeCard: OfferType | undefined;
 }
 

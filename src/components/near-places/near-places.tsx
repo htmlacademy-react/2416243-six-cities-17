@@ -1,11 +1,11 @@
-import {OfferType} from '../../types/offer.ts';
+import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {CitiesCard} from '../cities-card/cities-card.tsx';
 import {PlaceCardType} from '../../const.ts';
 
 interface NearPlacesProps {
   offers: OfferType[];
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
 }
 
 export function NearPlaces({offers, onOfferClick, onOfferHover}: Readonly<NearPlacesProps>) {

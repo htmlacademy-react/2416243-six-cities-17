@@ -1,13 +1,13 @@
 import {Header} from '../../components/header/header.tsx';
 import {Footer} from '../../components/footer/footer.tsx';
-import {OfferType} from '../../types/offer.ts';
+import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {CitiesCard} from '../../components/cities-card/cities-card.tsx';
 import {PlaceCardType} from '../../const.ts';
 
 interface FavoritesPageProps {
   offers: OfferType[];
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
 }
 
 export function FavoritesPage({offers, onOfferClick, onOfferHover}: Readonly<FavoritesPageProps>) {

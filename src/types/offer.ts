@@ -36,3 +36,7 @@ export type CurrentOfferType = OfferType & {
   bedrooms: number;
   maxAdults: number;
 }
+
+export type OfferClickType = (offer: OfferType) => void;
+
+export type OfferHoverType = (offerItem?: OfferType) => void;

@@ -1,12 +1,12 @@
-import {OfferType} from '../../types/offer.ts';
+import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType, starLength} from '../../const.ts';
 import {Link} from 'react-router';
 
 interface CitiesCardProps {
   offer: OfferType;
   cardType: PlaceCardType;
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
 }
 
 export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readonly<CitiesCardProps>) {
@@ -43,7 +43,7 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
     <article
       className={`${articleClass} place-card`}
       id={`offer-${id}`}
-      onClick={() => onOfferClick(id)}
+      onClick={() => onOfferClick(offer)}
       onMouseEnter={() => onOfferHover(offer)}
       onFocus={() => onOfferHover(offer)}
     >

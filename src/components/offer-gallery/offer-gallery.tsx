@@ -1,24 +1,17 @@
-export function OfferGallery() {
+import {MAX_IMAGES_PER_OFFER} from '../../const.ts';
+
+interface OfferGalleryProps {
+  images: string[];
+}
+
+export function OfferGallery({images}: Readonly<OfferGalleryProps>) {
   return (
     <div className="offer__gallery">
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/room.jpg" alt="Photo studio"/>
-      </div>
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-      </div>
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio"/>
-      </div>
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio"/>
-      </div>
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio"/>
-      </div>
-      <div className="offer__image-wrapper">
-        <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
-      </div>
+      {images.slice(0, MAX_IMAGES_PER_OFFER).map((image) => (
+        <div className="offer__image-wrapper" key={image}>
+          <img className="offer__image" src={image} alt="Photo studio"/>
+        </div>
+      ))}
     </div>
   );
 }
