@@ -43,7 +43,7 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
                           to={'#'}
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(logoutAction);
+                            dispatch(logoutAction());
                           }}
                         >
                           <span className="header__signout">Sign out</span>
