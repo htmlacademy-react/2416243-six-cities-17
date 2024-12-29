@@ -93,7 +93,7 @@ export const clearErrorAction = createAsyncThunk(
   }
 );
 
-export const fetchCurrentOfferAction = createAsyncThunk<void, CurrentOfferType, {
+export const fetchCurrentOfferAction = createAsyncThunk<void, OfferType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
