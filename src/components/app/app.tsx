@@ -11,6 +11,8 @@ import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
 
 export function App() {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   const [currentOffer, setCurrentOffer] = useState({id: '0'});
   const [activeCard, setActiveCard] = useState<OfferType | undefined>(undefined);
 
@@ -63,16 +65,30 @@ export function App() {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
+              authorizationStatus={authorizationStatus}
+              requiredAuthorizationStatus={AuthorizationStatus.Auth}
+              divertToElement={AppRoute.Login}
             >
-              <FavoritesPage offers={offers} onOfferClick={handleOfferClick} onOfferHover={handleOfferHover}/>
+              <FavoritesPage
+                offers={offers}
+                onOfferClick={handleOfferClick}
+                onOfferHover={handleOfferHover}
+              />
             </PrivateRoute>
           }
         />
 
         <Route
           path={AppRoute.Login}
-          element={<LoginPage/>}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+              requiredAuthorizationStatus={AuthorizationStatus.NoAuth}
+              divertToElement={AppRoute.Main}
+            >
+              <LoginPage/>
+            </PrivateRoute>
+          }
         />
 
         <Route

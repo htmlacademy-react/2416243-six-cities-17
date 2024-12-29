@@ -1,13 +1,11 @@
 import axios, {AxiosInstance, InternalAxiosRequestConfig} from 'axios';
 import {getToken} from './token.ts';
-
-const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
-const REQUEST_TIMEOUT = 5000;
+import {BACKEND_REQUEST_TIMEOUT, BACKEND_URL} from '../const.ts';
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
-    timeout: REQUEST_TIMEOUT
+    timeout: BACKEND_REQUEST_TIMEOUT
   });
 
   api.interceptors.request.use(

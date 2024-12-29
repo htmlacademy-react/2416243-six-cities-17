@@ -5,12 +5,19 @@ import {ReactElement} from 'react';
 interface PrivateRouteProps {
   authorizationStatus: AuthorizationStatus;
   children: ReactElement;
+  requiredAuthorizationStatus: AuthorizationStatus;
+  divertToElement: AppRoute;
 }
 
-export function PrivateRoute({authorizationStatus, children}: Readonly<PrivateRouteProps>) {
+export function PrivateRoute({
+  authorizationStatus,
+  children,
+  requiredAuthorizationStatus,
+  divertToElement
+}: Readonly<PrivateRouteProps>) {
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    authorizationStatus === requiredAuthorizationStatus
       ? children
-      : <Navigate to={AppRoute.Login}/>
+      : <Navigate to={divertToElement}/>
   );
 }
