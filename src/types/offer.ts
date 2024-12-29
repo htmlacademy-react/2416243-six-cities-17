@@ -9,6 +9,12 @@ export type CityType = {
   location: LocationType;
 }
 
+export type HostType = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
 export type OfferType = {
   id: string;
   title: string;
@@ -20,4 +26,13 @@ export type OfferType = {
   isPremium: boolean;
   city: CityType;
   location: LocationType;
-};
+}
+
+export type CurrentOfferType = OfferType & {
+  images: string[];
+  description: string;
+  goods: string[];
+  host: HostType;
+  bedrooms: number;
+  maxAdults: number;
+}

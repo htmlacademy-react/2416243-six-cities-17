@@ -1,8 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
-import {loadOffers, loadUserData, requireAuthorization, setError, setOffersLoadingStatus} from './action.ts';
-import {OfferType} from '../types/offer.ts';
+import {
+  loadCurrentOffer,
+  loadOffers,
+  loadUserData,
+  requireAuthorization,
+  setError,
+  setOffersLoadingStatus
+} from './action.ts';
+import {CurrentOfferType, OfferType} from '../types/offer.ts';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
@@ -11,6 +18,7 @@ import {store} from './index.ts';
 
 export const APIAction = {
   FETCH_OFFERS: 'FETCH_OFFERS',
+  FETCH_CURRENT_OFFER: 'FETCH_CURRENT_OFFER',
   CHECK_AUTH: 'CHECK_AUTH',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
@@ -82,5 +90,17 @@ export const clearErrorAction = createAsyncThunk(
       () => store.dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR
     );
+  }
+);
+
+export const fetchCurrentOfferAction = createAsyncThunk<void, CurrentOfferType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  APIAction.FETCH_CURRENT_OFFER,
+  async ({id}, {dispatch, extra: api}) => {
+    const {data} = await api.get<CurrentOfferType>(`${APIRoute.Offers}/${id}`);
+    dispatch(loadCurrentOffer(data));
   }
 );

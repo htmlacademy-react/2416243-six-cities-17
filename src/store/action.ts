@@ -1,10 +1,11 @@
 import {createAction} from '@reduxjs/toolkit';
-import {CityType, OfferType} from '../types/offer.ts';
+import {CityType, CurrentOfferType, OfferType} from '../types/offer.ts';
 import {AuthorizationStatus} from '../const.ts';
 import {UserData} from '../types/user-data.ts';
 
 export const Action = {
   LOAD_OFFERS: 'LOAD_OFFERS',
+  LOAD_CURRENT_OFFER: 'LOAD_CURRENT_OFFER',
   CHANGE_CITY: 'CHANGE_CITY',
   CHANGE_SORTING: 'CHANGE_SORTING',
   OPEN_SORTING: 'OPEN_SORTING',
@@ -17,6 +18,8 @@ export const Action = {
 };
 
 export const loadOffers = createAction<OfferType[]>(Action.LOAD_OFFERS);
+export const loadCurrentOffer = createAction<CurrentOfferType>(Action.LOAD_CURRENT_OFFER);
+
 export const changeCity = createAction(Action.CHANGE_CITY, (selectedCity: CityType) => ({
   payload: selectedCity
 }));

@@ -3,19 +3,20 @@ import {AuthorizationStatus, Cities, Sorts} from '../const.ts';
 import {
   changeCity,
   changeSorting,
-  closeSorting,
+  closeSorting, loadCurrentOffer,
   loadOffers, loadUserData,
   openSorting, requireAuthorization,
   resetSorting, setError,
   setOffersLoadingStatus
 } from './action.ts';
 import {placeSorting} from '../utlis/place-sorting.ts';
-import {CityType, OfferType} from '../types/offer.ts';
+import {CityType, CurrentOfferType, OfferType} from '../types/offer.ts';
 import {UserData} from '../types/user-data.ts';
 
 type InitialState = {
   city: CityType;
   offers: OfferType[];
+  currentOffer: CurrentOfferType | null;
   sort: string;
   isSortingOpen: boolean;
   isOffersLoading: boolean;
@@ -27,6 +28,7 @@ type InitialState = {
 const initialState: InitialState = {
   city: Cities.PARIS,
   offers: [],
+  currentOffer: null,
   sort: Sorts.POPULAR,
   isSortingOpen: false,
   isOffersLoading: false,
@@ -42,6 +44,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(loadCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
     })
     .addCase(changeSorting, (state, action) => {
       state.sort = action.payload;
