@@ -1,14 +1,12 @@
 import {Reviews} from '../reviews/reviews.tsx';
 import {starLength} from '../../const.ts';
-import {Review} from '../../types/reviews.ts';
 import {CurrentOfferType} from '../../types/offer.ts';
 
 interface OfferDetailsProps {
   currentOffer: CurrentOfferType;
-  reviews: Review[];
 }
 
-export function OfferDetails({currentOffer, reviews}: Readonly<OfferDetailsProps>) {
+export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
   const {
     title,
     type,
@@ -103,7 +101,7 @@ export function OfferDetails({currentOffer, reviews}: Readonly<OfferDetailsProps
           </p>
         </div>
       </div>
-      <Reviews reviews={reviews}/>
+      <Reviews/>
     </div>
   );
 }

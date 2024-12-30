@@ -9,7 +9,7 @@ import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {OfferType} from '../../types/offer.ts';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {fetchCurrentOfferAction} from '../../store/api-actions.ts';
+import {fetchCommentsAction, fetchCurrentOfferAction} from '../../store/api-actions.ts';
 import {store} from '../../store';
 
 export function App() {
@@ -22,6 +22,7 @@ export function App() {
 
   const handleOfferClick = (offer: OfferType) => {
     store.dispatch(fetchCurrentOfferAction(offer));
+    store.dispatch(fetchCommentsAction(offer));
     setCurrentOffer({
       ...currentOffer,
       id: offer.id

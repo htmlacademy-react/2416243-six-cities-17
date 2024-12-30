@@ -3,7 +3,7 @@ import {AuthorizationStatus, Cities, Sorts} from '../const.ts';
 import {
   changeCity,
   changeSorting,
-  closeSorting, loadCurrentOffer,
+  closeSorting, loadComments, loadCurrentOffer,
   loadOffers, loadUserData,
   openSorting, requireAuthorization,
   resetSorting, setError,
@@ -11,6 +11,7 @@ import {
 } from './action.ts';
 import {placeSorting} from '../utlis/place-sorting.ts';
 import {CityType, CurrentOfferType, OfferType} from '../types/offer.ts';
+import {CommentType} from '../types/comment.ts';
 import {UserData} from '../types/user-data.ts';
 
 type InitialState = {
@@ -23,6 +24,7 @@ type InitialState = {
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   user: UserData | null;
+  comments: CommentType[];
 }
 
 const initialState: InitialState = {
@@ -34,7 +36,8 @@ const initialState: InitialState = {
   isOffersLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  user: null
+  user: null,
+  comments: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -72,5 +75,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadUserData, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     });
 });

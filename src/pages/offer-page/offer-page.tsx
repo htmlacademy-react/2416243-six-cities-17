@@ -6,7 +6,6 @@ import {OfferDetails} from '../../components/offer-details/offer-details.tsx';
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {useParams} from 'react-router';
 import {cityRef} from '../../const.ts';
-import {reviews} from '../../mocks/reviews.ts';
 import {useAppSelector} from '../../hooks';
 
 interface OfferPageProps {
@@ -35,7 +34,7 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
               <OfferGallery images={currentOffer.images}/>
             </div>
             <div className="offer__container container">
-              <OfferDetails currentOffer={currentOffer} reviews={reviews}/>
+              <OfferDetails currentOffer={currentOffer}/>
             </div>
             <section className="offer__map map">
               <Map city={cityRef} offers={nearOffers} activeCard={activeCard}/>

@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
 import {
+  loadComments,
   loadCurrentOffer,
   loadOffers,
   loadUserData,
@@ -10,6 +11,7 @@ import {
   setOffersLoadingStatus
 } from './action.ts';
 import {CurrentOfferType, OfferType} from '../types/offer.ts';
+import {CommentType} from '../types/comment.ts';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
@@ -22,7 +24,8 @@ export const APIAction = {
   CHECK_AUTH: 'CHECK_AUTH',
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
-  CLEAR_ERROR: 'CLEAR_ERROR'
+  CLEAR_ERROR: 'CLEAR_ERROR',
+  FETCH_COMMENTS: 'FETCH_COMMENTS'
 };
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -102,5 +105,17 @@ export const fetchCurrentOfferAction = createAsyncThunk<void, OfferType, {
   async ({id}, {dispatch, extra: api}) => {
     const {data} = await api.get<CurrentOfferType>(`${APIRoute.Offers}/${id}`);
     dispatch(loadCurrentOffer(data));
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, OfferType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  APIAction.FETCH_COMMENTS,
+  async ({id}, {dispatch, extra: api}) => {
+    const {data} = await api.get<CommentType[]>(`${APIRoute.Comments}/${id}`);
+    dispatch(loadComments(data));
   }
 );
