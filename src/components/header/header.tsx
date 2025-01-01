@@ -1,7 +1,8 @@
 import {Link} from 'react-router';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {logoutAction} from '../../store/api-actions.ts';
+
+import {logoutAction} from '../../store/user-api-actions.ts';
 
 interface HeaderProps {
   isNavHidden?: boolean;
@@ -12,6 +13,7 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
 
   const isAuthorized = useAppSelector((state) => state.authorizationStatus) === AuthorizationStatus.Auth;
   const userData = useAppSelector((state) => state.user);
+  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
 
   return (
     <header className="header">
@@ -34,7 +36,7 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
                           <div className="header__avatar-wrapper user__avatar-wrapper">
                           </div>
                           <span className="header__user-name user__name">{userData?.email}</span>
-                          <span className="header__favorite-count">3</span>
+                          <span className="header__favorite-count">{favoriteOffers.length}</span>
                         </Link>
                       </li>
                       <li className="header__nav-item">
