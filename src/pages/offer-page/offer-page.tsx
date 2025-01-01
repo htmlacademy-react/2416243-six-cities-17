@@ -5,8 +5,12 @@ import {OfferGallery} from '../../components/offer-gallery/offer-gallery.tsx';
 import {OfferDetails} from '../../components/offer-details/offer-details.tsx';
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {useParams} from 'react-router';
-import {cityRef} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
+import {fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction} from '../../store/data-api-actions.ts';
+import {store} from '../../store';
+import {useEffect} from 'react';
+import {MAX_NEAREST_OFFERS} from '../../const.ts';
+import {NotFoundPage} from '../not-found-page/not-found-page.tsx';
 
 interface OfferPageProps {
   onOfferClick: OfferClickType;
@@ -15,15 +19,21 @@ interface OfferPageProps {
 }
 
 export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<OfferPageProps>) {
-  const {id} = useParams();
+  const {id: currentId} = useParams();
 
-  const offers = useAppSelector((state) => state.offers);
+  useEffect(() => {
+    if (currentId) {
+      store.dispatch(fetchCurrentOfferAction(currentId));
+      store.dispatch(fetchCommentsAction(currentId));
+      store.dispatch(fetchNearestOffersAction(currentId));
+    }
+  }, [currentId]);
+
+  const currentCity = useAppSelector((state) => state.city);
   const currentOffer = useAppSelector((state) => state.currentOffer);
-  const offer = offers.find((element) => element.id === id) as OfferType;
-  const nearOffers = offers.filter((element) => element.id !== offer?.id).slice(0, 3);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0, MAX_NEAREST_OFFERS);
 
   if (currentOffer) {
-
     return (
       <div className="page">
         <Header/>
@@ -37,14 +47,16 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
               <OfferDetails currentOffer={currentOffer}/>
             </div>
             <section className="offer__map map">
-              <Map city={cityRef} offers={nearOffers} activeCard={activeCard}/>
+              <Map city={currentCity} offers={nearestOffers} activeCard={activeCard}/>
             </section>
           </section>
           <div className="container">
-            <NearPlaces offers={nearOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
+            <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
           </div>
         </main>
       </div>
     );
   }
+
+  return <NotFoundPage/>;
 }

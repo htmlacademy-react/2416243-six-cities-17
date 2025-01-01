@@ -137,3 +137,5 @@ export const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
 export const BACKEND_REQUEST_TIMEOUT = 5000;
 
 export const MAX_IMAGES_PER_OFFER = 6;
+
+export const MAX_NEAREST_OFFERS = 3;

@@ -1,6 +1,8 @@
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType, starLength} from '../../const.ts';
 import {Link} from 'react-router';
+import {store} from '../../store';
+import {updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
 
 interface CitiesCardProps {
   offer: OfferType;
@@ -15,6 +17,9 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
   const placeRating = `${rating * starLength}%`;
+  const placeName = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+  const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+
   let articleClass = '';
   let infoDivClass = '';
   let imageWrapper = '';
@@ -38,6 +43,10 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
       imageWrapper = 'near-places__image-wrapper';
       break;
   }
+
+  const handleFavoriteButtonClick = () => {
+    store.dispatch(updateOfferFavoriteStatusAction(offer));
+  };
 
   return (
     <article
@@ -67,7 +76,11 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={bookmarkButtonClass} type="button">
+          <button
+            className={bookmarkButtonClass}
+            type="button"
+            onClick={handleFavoriteButtonClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -81,9 +94,9 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${id}`}>{title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}</Link>
+          <Link to={`${AppRoute.Offer}/${id}`}>{placeName}</Link>
         </h2>
-        <p className="place-card__type">{type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}</p>
+        <p className="place-card__type">{placeType}</p>
       </div>
     </article>
   );

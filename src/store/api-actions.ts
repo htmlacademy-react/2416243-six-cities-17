@@ -1,93 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state.ts';
-import {AxiosInstance} from 'axios';
-import {
-  loadComments,
-  loadCurrentOffer,
-  loadOffers,
-  loadUserData,
-  requireAuthorization,
-  setError,
-  setOffersLoadingStatus
-} from './action.ts';
-import {CurrentOfferType, OfferType} from '../types/offer.ts';
-import {CommentType} from '../types/comment.ts';
-import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../const.ts';
-import {AuthData} from '../types/auth-data.ts';
-import {UserData} from '../types/user-data.ts';
-import {dropToken, saveToken} from '../services/token.ts';
+import {setError} from './action.ts';
+import {TIMEOUT_SHOW_ERROR} from '../const.ts';
 import {store} from './index.ts';
 
-export const APIAction = {
-  FETCH_OFFERS: 'FETCH_OFFERS',
-  FETCH_CURRENT_OFFER: 'FETCH_CURRENT_OFFER',
-  CHECK_AUTH: 'CHECK_AUTH',
-  LOGIN: 'LOGIN',
-  LOGOUT: 'LOGOUT',
-  CLEAR_ERROR: 'CLEAR_ERROR',
-  FETCH_COMMENTS: 'FETCH_COMMENTS'
-};
-
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.FETCH_OFFERS,
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(setOffersLoadingStatus(true));
-    const {data} = await api.get<OfferType[]>(APIRoute.Offers);
-    dispatch(setOffersLoadingStatus(false));
-    dispatch(loadOffers(data));
-  }
-);
-
-export const checkAuthorizationAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.CHECK_AUTH,
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<UserData>(APIRoute.Login);
-      dispatch(loadUserData(data));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
-  }
-);
-
-export const loginAction = createAsyncThunk<void, AuthData, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.LOGIN,
-  async ({email, password}, {dispatch, extra: api}) => {
-    const {data: {token}, data} = await api.post<UserData>(APIRoute.Login, {email, password});
-    dispatch(loadUserData(data));
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-  }
-);
-
-export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.LOGOUT,
-  async (_arg, {dispatch, extra: api}) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  }
-);
-
 export const clearErrorAction = createAsyncThunk(
-  APIAction.CLEAR_ERROR,
+  'data/clearErrorAction',
   () => {
     setTimeout(
       () => store.dispatch(setError(null)),
@@ -96,26 +13,3 @@ export const clearErrorAction = createAsyncThunk(
   }
 );
 
-export const fetchCurrentOfferAction = createAsyncThunk<void, OfferType, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.FETCH_CURRENT_OFFER,
-  async ({id}, {dispatch, extra: api}) => {
-    const {data} = await api.get<CurrentOfferType>(`${APIRoute.Offers}/${id}`);
-    dispatch(loadCurrentOffer(data));
-  }
-);
-
-export const fetchCommentsAction = createAsyncThunk<void, OfferType, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  APIAction.FETCH_COMMENTS,
-  async ({id}, {dispatch, extra: api}) => {
-    const {data} = await api.get<CommentType[]>(`${APIRoute.Comments}/${id}`);
-    dispatch(loadComments(data));
-  }
-);

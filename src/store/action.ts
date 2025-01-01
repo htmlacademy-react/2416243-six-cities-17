@@ -7,6 +7,8 @@ import {CommentType} from '../types/comment.ts';
 export const Action = {
   LOAD_OFFERS: 'LOAD_OFFERS',
   LOAD_CURRENT_OFFER: 'LOAD_CURRENT_OFFER',
+  LOAD_NEAREST_OFFERS: 'LOAD_NEAREST_OFFERS',
+  LOAD_FAVORITE_OFFERS: 'LOAD_FAVORITE_OFFERS',
   CHANGE_CITY: 'CHANGE_CITY',
   CHANGE_SORTING: 'CHANGE_SORTING',
   OPEN_SORTING: 'OPEN_SORTING',
@@ -21,6 +23,8 @@ export const Action = {
 
 export const loadOffers = createAction<OfferType[]>(Action.LOAD_OFFERS);
 export const loadCurrentOffer = createAction<CurrentOfferType>(Action.LOAD_CURRENT_OFFER);
+export const loadNearestOffers = createAction<OfferType[]>(Action.LOAD_NEAREST_OFFERS);
+export const loadFavoriteOffers = createAction<OfferType[]>(Action.LOAD_FAVORITE_OFFERS);
 
 export const changeCity = createAction(Action.CHANGE_CITY, (selectedCity: CityType) => ({
   payload: selectedCity
@@ -31,7 +35,7 @@ export const changeSorting = createAction(Action.CHANGE_SORTING, (currentSorting
 export const openSorting = createAction(Action.OPEN_SORTING);
 export const closeSorting = createAction(Action.CLOSE_SORTING);
 export const resetSorting = createAction(Action.RESET_SORTING);
-export const setOffersLoadingStatus = createAction<boolean>(Action.SET_OFFERS_LOADING_STATUS);
+export const setDataLoadingStatus = createAction<boolean>(Action.SET_OFFERS_LOADING_STATUS);
 export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQUIRE_AUTH);
 export const setError = createAction<string | null>(Action.SET_ERROR);
 export const loadUserData = createAction<UserData>(Action.LOAD_USER_DATA);

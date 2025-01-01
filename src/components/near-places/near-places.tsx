@@ -12,7 +12,7 @@ export function NearPlaces({offers, onOfferClick, onOfferHover}: Readonly<NearPl
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <div className="near-places__list places__list">
+      <div className="near-places__list places__list" onMouseLeave={() => onOfferHover()}>
         {offers.map((offer) => (
           <CitiesCard
             key={offer.id}

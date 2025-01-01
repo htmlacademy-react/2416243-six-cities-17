@@ -1,6 +1,6 @@
 import {FormEvent, useRef} from 'react';
-import {loginAction} from '../../store/api-actions.ts';
 import { useAppDispatch } from '../../hooks';
+import {loginAction} from '../../store/user-api-actions.ts';
 
 export function LoginContainer() {
   const emailRef = useRef<HTMLInputElement | null>(null);

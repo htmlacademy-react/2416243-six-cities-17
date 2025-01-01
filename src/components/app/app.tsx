@@ -9,8 +9,6 @@ import {OfferPage} from '../../pages/offer-page/offer-page.tsx';
 import {OfferType} from '../../types/offer.ts';
 import {useState} from 'react';
 import {useAppSelector} from '../../hooks';
-import {fetchCommentsAction, fetchCurrentOfferAction} from '../../store/api-actions.ts';
-import {store} from '../../store';
 
 export function App() {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -21,8 +19,6 @@ export function App() {
   const offers = useAppSelector((state) => state.offers);
 
   const handleOfferClick = (offer: OfferType) => {
-    store.dispatch(fetchCurrentOfferAction(offer));
-    store.dispatch(fetchCommentsAction(offer));
     setCurrentOffer({
       ...currentOffer,
       id: offer.id
@@ -74,7 +70,6 @@ export function App() {
               divertToElement={AppRoute.Login}
             >
               <FavoritesPage
-                offers={offers}
                 onOfferClick={handleOfferClick}
                 onOfferHover={handleOfferHover}
               />
