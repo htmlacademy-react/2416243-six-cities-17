@@ -2,6 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
 import {AxiosInstance} from 'axios';
 import {
+  loadComment,
   loadComments,
   loadCurrentOffer,
   loadFavoriteOffers,
@@ -11,7 +12,7 @@ import {
 } from './action';
 import {CurrentOfferType, OfferType} from '../types/offer';
 import {APIRoute} from '../const';
-import {CommentType} from '../types/comment';
+import {CommentToSendType, CommentType} from '../types/comment';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -90,5 +91,17 @@ export const fetchCommentsAction = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<CommentType[]>(`${APIRoute.Comments}/${id}`);
     dispatch(loadComments(data));
+  }
+);
+
+export const postReviewCommentAction = createAsyncThunk<void, CommentToSendType, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postReviewCommentAction',
+  async ({offerId, rating, comment}, {dispatch, extra: api}) => {
+    const {data} = await api.post<CommentType>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
+    dispatch(loadComment(data));
   }
 );

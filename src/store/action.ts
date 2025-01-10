@@ -18,7 +18,8 @@ export const Action = {
   REQUIRE_AUTH: 'REQUIRE_AUTH',
   SET_ERROR: 'SET_ERROR',
   LOAD_USER_DATA: 'LOAD_USER_DATA',
-  LOAD_COMMENTS: 'LOAD_COMMENTS'
+  LOAD_COMMENTS: 'LOAD_COMMENTS',
+  LOAD_COMMENT: 'LOAD_COMMENT'
 };
 
 export const loadOffers = createAction<OfferType[]>(Action.LOAD_OFFERS);
@@ -40,3 +41,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>(Action.REQ
 export const setError = createAction<string | null>(Action.SET_ERROR);
 export const loadUserData = createAction<UserData>(Action.LOAD_USER_DATA);
 export const loadComments = createAction<CommentType[]>(Action.LOAD_COMMENTS);
+export const loadComment = createAction<CommentType>(Action.LOAD_COMMENT);
+

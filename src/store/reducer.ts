@@ -7,7 +7,7 @@ import {
   loadOffers, loadUserData,
   openSorting, requireAuthorization,
   resetSorting, setError,
-  setDataLoadingStatus, loadFavoriteOffers
+  setDataLoadingStatus, loadFavoriteOffers, loadComment
 } from './action.ts';
 import {placeSorting} from '../utlis/place-sorting.ts';
 import {CityType, CurrentOfferType, OfferType} from '../types/offer.ts';
@@ -88,5 +88,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(loadComment, (state, action) => {
+      state.comments.push(action.payload);
     });
 });

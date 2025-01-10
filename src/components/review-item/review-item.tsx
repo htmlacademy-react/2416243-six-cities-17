@@ -12,7 +12,7 @@ export function ReviewItem({review}: Readonly<ReviewItemProps>) {
 
   const reviewDate = getStringDate(date, DateFormat.DATE);
   const reviewDateText = getStringDate(date, DateFormat.MONTH_YEAR);
-  const placeRating = `${rating * starLength}%`;
+  const placeRating = `${Math.round(rating) * starLength}%`;
 
   return (
     <li className="reviews__item">

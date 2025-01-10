@@ -13,6 +13,7 @@ export type CommentType = {
 }
 
 export type CommentToSendType = {
+  offerId: string;
   comment: string;
   rating: number;
 }

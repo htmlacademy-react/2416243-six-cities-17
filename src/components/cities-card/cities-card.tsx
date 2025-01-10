@@ -16,7 +16,7 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
-  const placeRating = `${rating * starLength}%`;
+  const placeRating = `${Math.round(rating) * starLength}%`;
   const placeName = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
   const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 

@@ -8,6 +8,7 @@ interface OfferDetailsProps {
 
 export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
   const {
+    id,
     title,
     type,
     price,
@@ -24,7 +25,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
-  const placeRating = `${rating * starLength}%`;
+  const placeRating = `${Math.round(rating) * starLength}%`;
   const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
   const placeHostName = host.name.charAt(0).toUpperCase() + host.name.slice(1).toLowerCase();
   const placeBedrooms = bedrooms > 1 ? `${bedrooms} Bedrooms` : `${bedrooms} Bedroom`;
@@ -49,7 +50,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
           <span style={{width: placeRating}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
-        <span className="offer__rating-value rating__value">{rating}</span>
+        <span className="offer__rating-value rating__value">{Math.round(rating)}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
@@ -101,7 +102,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
           </p>
         </div>
       </div>
-      <Reviews/>
+      <Reviews offerId={id}/>
     </div>
   );
 }

@@ -139,3 +139,5 @@ export const BACKEND_REQUEST_TIMEOUT = 5000;
 export const MAX_IMAGES_PER_OFFER = 6;
 
 export const MAX_NEAREST_OFFERS = 3;
+
+export const MAX_REVIEW_SHOWN = 10;
