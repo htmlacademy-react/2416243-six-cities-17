@@ -18,10 +18,10 @@ export function App() {
 
   const offers = useAppSelector((state) => state.offers);
 
-  const handleOfferClick = (id: string) => {
+  const handleOfferClick = (offer: OfferType) => {
     setCurrentOffer({
       ...currentOffer,
-      id: id
+      id: offer.id
     });
   };
 
@@ -52,7 +52,7 @@ export function App() {
           <Route
             path={AppRoute.OfferId}
             element={
-              <OfferPage offers={offers}
+              <OfferPage
                 onOfferClick={handleOfferClick}
                 onOfferHover={handleOfferHover}
                 activeCard={activeCard}
@@ -70,7 +70,6 @@ export function App() {
               divertToElement={AppRoute.Login}
             >
               <FavoritesPage
-                offers={offers}
                 onOfferClick={handleOfferClick}
                 onOfferHover={handleOfferHover}
               />

@@ -1,13 +1,13 @@
 import {CitiesCard} from '../cities-card/cities-card.tsx';
-import {CityType, OfferType} from '../../types/offer.ts';
+import {CityType, OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {PlaceCardType} from '../../const.ts';
 import {PlacesSorting} from '../places-sorting/places-sorting.tsx';
 
 interface CitiesPlacesListProps {
   offers: OfferType[];
   cardType: PlaceCardType;
-  onOfferClick: ((id: string) => void);
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
   city: CityType;
 }
 

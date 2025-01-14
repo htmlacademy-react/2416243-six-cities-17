@@ -1,22 +1,46 @@
-import {ChangeEvent, Fragment, useState} from 'react';
+import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {Rating, ReviewCommentLengthLimit} from '../../const.ts';
+import {useAppDispatch} from '../../hooks';
+import {postReviewCommentAction} from '../../store/data-api-actions.ts';
 
-export function ReviewForm() {
+interface ReviewFormProps {
+  offerId: string;
+}
+
+export function ReviewForm({offerId}: Readonly<ReviewFormProps>) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(evt.target.value));
   };
 
-  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>)=> {
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
   };
 
-  const isValid = comment.length >= ReviewCommentLengthLimit.Min && comment.length <= ReviewCommentLengthLimit.Max && rating;
+  const handleReviewFormClear = () => {
+    setComment('');
+    setRating(0);
+  };
+
+  const handleReviewFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    dispatch(postReviewCommentAction({offerId, rating, comment}))
+      .then(() => {
+        handleReviewFormClear();
+      });
+  };
+
+  const isValid =
+    comment.length >= ReviewCommentLengthLimit.Min &&
+    comment.length <= ReviewCommentLengthLimit.Max &&
+    rating;
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleReviewFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {Object.keys(Rating).map((ratingKey) => (
@@ -55,7 +79,8 @@ export function ReviewForm() {
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
-          describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          describe your stay with at least
+          <b className="reviews__text-amount">{ReviewCommentLengthLimit.Min} characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled={!isValid}>Submit</button>
       </div>

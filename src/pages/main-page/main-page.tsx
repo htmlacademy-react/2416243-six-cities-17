@@ -2,24 +2,21 @@ import {CitiesPlacesList} from '../../components/cities-places-list/cities-place
 import {Map} from '../../components/map/map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {CitiesLocationList} from '../../components/cities-location-list/cities-location-list.tsx';
-import {CityType, OfferType} from '../../types/offer.ts';
+import {CityType, OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {AppRoute, PlaceCardType} from '../../const.ts';
 import {changeCity, resetSorting} from '../../store/action.ts';
 import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {Loader} from '../../components/loader/loader.tsx';
 
 interface MainPageProps {
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
   activeCard: OfferType | undefined;
 }
 
 export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<MainPageProps>) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.city);
@@ -37,32 +34,27 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        {isOffersLoading
-          ? <Loader/>
-          :
-          <>
-            <CitiesLocationList onCityLocationClick={handleCitiesLocationClick}/>
-            <div className="cities">
-              <div className="cities__places-container container">
-                <CitiesPlacesList
+        <CitiesLocationList onCityLocationClick={handleCitiesLocationClick}/>
+        <div className="cities">
+          <div className="cities__places-container container">
+            <CitiesPlacesList
+              city={currentCity}
+              offers={offersInCurrentCity}
+              cardType={PlaceCardType.Main}
+              onOfferClick={onOfferClick}
+              onOfferHover={onOfferHover}
+            />
+            <div className="cities__right-section">
+              <section className="cities__map map">
+                <Map
                   city={currentCity}
                   offers={offersInCurrentCity}
-                  cardType={PlaceCardType.Main}
-                  onOfferClick={onOfferClick}
-                  onOfferHover={onOfferHover}
+                  activeCard={activeCard}
                 />
-                <div className="cities__right-section">
-                  <section className="cities__map map">
-                    <Map
-                      city={currentCity}
-                      offers={offersInCurrentCity}
-                      activeCard={activeCard}
-                    />
-                  </section>
-                </div>
-              </div>
+              </section>
             </div>
-          </>}
+          </div>
+        </div>
       </main>
     </div>
   );

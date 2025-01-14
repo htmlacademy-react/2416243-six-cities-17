@@ -3,43 +3,60 @@ import {Map} from '../../components/map/map.tsx';
 import {NearPlaces} from '../../components/near-places/near-places.tsx';
 import {OfferGallery} from '../../components/offer-gallery/offer-gallery.tsx';
 import {OfferDetails} from '../../components/offer-details/offer-details.tsx';
-import {OfferType} from '../../types/offer.ts';
+import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {useParams} from 'react-router';
-import {cityRef} from '../../const.ts';
-import {reviews} from '../../mocks/reviews.ts';
+import {useAppSelector} from '../../hooks';
+import {fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction} from '../../store/data-api-actions.ts';
+import {store} from '../../store';
+import {useEffect} from 'react';
+import {MAX_NEAREST_OFFERS} from '../../const.ts';
+import {NotFoundPage} from '../not-found-page/not-found-page.tsx';
 
 interface OfferPageProps {
-  offers: OfferType[];
-  onOfferClick: (id: string) => void;
-  onOfferHover: (offerItem?: OfferType) => void;
+  onOfferClick: OfferClickType;
+  onOfferHover: OfferHoverType;
   activeCard: OfferType | undefined;
 }
 
-export function OfferPage({offers, onOfferClick, onOfferHover, activeCard}: Readonly<OfferPageProps>) {
-  const {id} = useParams();
-  const offer = offers.find((element) => element.id === id) as OfferType;
-  const nearOffers = offers.filter((element) => element.id !== offer?.id).slice(0, 3);
+export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<OfferPageProps>) {
+  const {id: currentId} = useParams();
 
-  return (
-    <div className="page">
-      <Header/>
+  useEffect(() => {
+    if (currentId) {
+      store.dispatch(fetchCurrentOfferAction(currentId));
+      store.dispatch(fetchCommentsAction(currentId));
+      store.dispatch(fetchNearestOffersAction(currentId));
+    }
+  }, [currentId]);
 
-      <main className="page__main page__main--offer">
-        <section className="offer">
-          <div className="offer__gallery-container container">
-            <OfferGallery/>
-          </div>
-          <div className="offer__container container">
-            <OfferDetails offer={offer} reviews={reviews}/>
-          </div>
-          <section className="offer__map map">
-            <Map city={cityRef} offers={nearOffers} activeCard={activeCard}/>
+  const currentCity = useAppSelector((state) => state.city);
+  const currentOffer = useAppSelector((state) => state.currentOffer);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0, MAX_NEAREST_OFFERS);
+
+  if (currentOffer) {
+    return (
+      <div className="page">
+        <Header/>
+
+        <main className="page__main page__main--offer">
+          <section className="offer">
+            <div className="offer__gallery-container container">
+              <OfferGallery images={currentOffer.images}/>
+            </div>
+            <div className="offer__container container">
+              <OfferDetails currentOffer={currentOffer}/>
+            </div>
+            <section className="offer__map map">
+              <Map city={currentCity} offers={nearestOffers} activeCard={activeCard}/>
+            </section>
           </section>
-        </section>
-        <div className="container">
-          <NearPlaces offers={nearOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
-        </div>
-      </main>
-    </div>
-  );
+          <div className="container">
+            <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return <NotFoundPage/>;
 }

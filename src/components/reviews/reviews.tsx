@@ -1,21 +1,33 @@
 import {ReviewForm} from '../review-form/review-form.tsx';
-import {Review} from '../../types/reviews.ts';
 import {ReviewItem} from '../review-item/review-item.tsx';
+import {useAppSelector} from '../../hooks';
+import {AuthorizationStatus, MAX_REVIEW_SHOWN} from '../../const.ts';
+import {Review} from '../../types/reviews.ts';
+import {compareStringDates} from '../../utlis/date.ts';
 
 interface ReviewsProps {
-  reviews: Review[];
+  offerId: string;
 }
 
-export function Reviews({reviews}: Readonly<ReviewsProps>) {
-  const reviewsCount = reviews.length;
+export function Reviews({offerId}: Readonly<ReviewsProps>) {
+  const currentOfferReviews = useAppSelector((state) => state.comments);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const shownCurrentOfferReviews = [...currentOfferReviews]
+    .sort((firstReview: Review, secondReview: Review) => compareStringDates(firstReview.date, secondReview.date))
+    .slice(0, MAX_REVIEW_SHOWN);
 
   return (
     <section className="offer__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
+      <h2 className="reviews__title">
+        Reviews &middot; <span className="reviews__amount">{currentOfferReviews.length}</span>
+      </h2>
       <ul className="reviews__list">
-        {reviews.map((review) => <ReviewItem key={review.id} review={review}/>)}
+        {currentOfferReviews.length
+          ? shownCurrentOfferReviews.map((review) => <ReviewItem key={review.id} review={review}/>)
+          : ''}
       </ul>
-      <ReviewForm/>
+      {authorizationStatus === AuthorizationStatus.Auth ? <ReviewForm offerId={offerId}/> : ''}
     </section>
   );
 }

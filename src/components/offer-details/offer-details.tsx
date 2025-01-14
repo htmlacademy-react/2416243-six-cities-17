@@ -1,19 +1,35 @@
 import {Reviews} from '../reviews/reviews.tsx';
-import {OfferType} from '../../types/offer.ts';
 import {starLength} from '../../const.ts';
-import {Review} from '../../types/reviews.ts';
+import {CurrentOfferType} from '../../types/offer.ts';
 
 interface OfferDetailsProps {
-  offer: OfferType;
-  reviews: Review[];
+  currentOffer: CurrentOfferType;
 }
 
-export function OfferDetails({offer, reviews}: Readonly<OfferDetailsProps>) {
-  const {title, price, rating, isFavorite, isPremium} = offer;
+export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
+  const {
+    id,
+    title,
+    type,
+    price,
+    isFavorite,
+    isPremium,
+    rating,
+    description,
+    goods,
+    host,
+    maxAdults,
+    bedrooms,
+  } = currentOffer;
+
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
-  const placeRating = `${rating * starLength}%`;
+  const placeRating = `${Math.round(rating) * starLength}%`;
+  const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  const placeHostName = host.name.charAt(0).toUpperCase() + host.name.slice(1).toLowerCase();
+  const placeBedrooms = bedrooms > 1 ? `${bedrooms} Bedrooms` : `${bedrooms} Bedroom`;
+  const placeMaxAdults = maxAdults > 1 ? `${maxAdults} adults` : `${maxAdults} adult`;
 
   return (
     <div className="offer__wrapper">
@@ -34,17 +50,17 @@ export function OfferDetails({offer, reviews}: Readonly<OfferDetailsProps>) {
           <span style={{width: placeRating}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
-        <span className="offer__rating-value rating__value">{rating}</span>
+        <span className="offer__rating-value rating__value">{Math.round(rating)}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
-          Apartment
+          {placeType}
         </li>
         <li className="offer__feature offer__feature--bedrooms">
-          3 Bedrooms
+          {placeBedrooms}
         </li>
         <li className="offer__feature offer__feature--adults">
-          Max 4 adults
+          Max {placeMaxAdults}
         </li>
       </ul>
       <div className="offer__price">
@@ -54,65 +70,39 @@ export function OfferDetails({offer, reviews}: Readonly<OfferDetailsProps>) {
       <div className="offer__inside">
         <h2 className="offer__inside-title">What&apos;s inside</h2>
         <ul className="offer__inside-list">
-          <li className="offer__inside-item">
-            Wi-Fi
-          </li>
-          <li className="offer__inside-item">
-            Washing machine
-          </li>
-          <li className="offer__inside-item">
-            Towels
-          </li>
-          <li className="offer__inside-item">
-            Heating
-          </li>
-          <li className="offer__inside-item">
-            Coffee machine
-          </li>
-          <li className="offer__inside-item">
-            Baby seat
-          </li>
-          <li className="offer__inside-item">
-            Kitchen
-          </li>
-          <li className="offer__inside-item">
-            Dishwasher
-          </li>
-          <li className="offer__inside-item">
-            Cabel TV
-          </li>
-          <li className="offer__inside-item">
-            Fridge
-          </li>
+          {goods.map((good) => (
+            <li className="offer__inside-item" key={good}>
+              {good}
+            </li>
+          ))}
         </ul>
       </div>
       <div className="offer__host">
         <h2 className="offer__host-title">Meet the host</h2>
         <div className="offer__host-user user">
           <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-            <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74"
+            <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74"
               alt="Host avatar"
             />
           </div>
           <span className="offer__user-name">
-            Angelina
+            {placeHostName}
           </span>
-          <span className="offer__user-status">
-            Pro
-          </span>
+          {host.isPro
+            ? (
+              <span className="offer__user-status">
+                Pro
+              </span>
+            )
+            : ''}
         </div>
         <div className="offer__description">
           <p className="offer__text">
-            A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The
-            building is green and from 18th century.
-          </p>
-          <p className="offer__text">
-            An independent House, strategically located between Rembrand Square and National Opera, but where
-            the bustle of the city comes to rest in this alley flowery and colorful.
+            {description}
           </p>
         </div>
       </div>
-      <Reviews reviews={reviews}/>
+      <Reviews offerId={id}/>
     </div>
   );
 }
