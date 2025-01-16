@@ -5,6 +5,7 @@ import {CitiesCard} from '../../components/cities-card/cities-card.tsx';
 import {Cities, PlaceCardType} from '../../const.ts';
 import {useAppSelector} from '../../hooks';
 import {FavoritesEmptyList} from '../../components/favorites-empty-list/favorites-empty-list.tsx';
+import {Helmet} from 'react-helmet-async';
 
 interface FavoritesPageProps {
   onOfferClick: OfferClickType;
@@ -16,6 +17,9 @@ export function FavoritesPage({onOfferClick, onOfferHover}: Readonly<FavoritesPa
 
   return (
     <div className="page">
+      <Helmet>
+        <title>6 cities: favorites</title>
+      </Helmet>
       <Header/>
 
       <main className="page__main page__main--favorites">

@@ -11,6 +11,7 @@ import {store} from '../../store';
 import {useEffect} from 'react';
 import {MAX_NEAREST_OFFERS} from '../../const.ts';
 import {NotFoundPage} from '../not-found-page/not-found-page.tsx';
+import {Helmet} from 'react-helmet-async';
 
 interface OfferPageProps {
   onOfferClick: OfferClickType;
@@ -36,6 +37,9 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
   if (currentOffer) {
     return (
       <div className="page">
+        <Helmet>
+          6 cities: offer
+        </Helmet>
         <Header/>
 
         <main className="page__main page__main--offer">
