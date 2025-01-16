@@ -7,6 +7,7 @@ import {AppRoute, PlaceCardType} from '../../const.ts';
 import {changeCity, resetSorting} from '../../store/action.ts';
 import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import {Helmet} from 'react-helmet-async';
 
 interface MainPageProps {
   onOfferClick: OfferClickType;
@@ -30,6 +31,9 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
 
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>6 cities</title>
+      </Helmet>
       <Header/>
 
       <main className="page__main page__main--index">
