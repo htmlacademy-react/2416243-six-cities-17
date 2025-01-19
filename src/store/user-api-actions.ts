@@ -3,37 +3,31 @@ import {AuthData} from '../types/auth-data.ts';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
 import {UserData} from '../types/user-data.ts';
-import {APIRoute, AuthorizationStatus} from '../const.ts';
-import {loadUserData, requireAuthorization} from './action.ts';
+import {APIRoute} from '../const.ts';
 import {dropToken, saveToken} from '../services/token.ts';
 
-export const checkAuthorizationAction = createAsyncThunk<void, undefined, {
+export const checkAuthorizationAction = createAsyncThunk<UserData, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/checkAuthorizationAction',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get<UserData>(APIRoute.Login);
-      dispatch(loadUserData(data));
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<UserData>(APIRoute.Login);
+    return data;
   }
 );
-export const loginAction = createAsyncThunk<void, AuthData, {
+
+export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/loginAction',
-  async ({email, password}, {dispatch, extra: api}) => {
+  async ({email, password}, {extra: api}) => {
     const {data: {token}, data} = await api.post<UserData>(APIRoute.Login, {email, password});
-    dispatch(loadUserData(data));
     saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    return data;
   }
 );
 export const logoutAction = createAsyncThunk<void, undefined, {
@@ -42,9 +36,8 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'data/logoutAction',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
 );

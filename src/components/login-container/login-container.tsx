@@ -1,21 +1,21 @@
-import {FormEvent, useRef} from 'react';
+import {FormEvent} from 'react';
 import { useAppDispatch } from '../../hooks';
 import {loginAction} from '../../store/user-api-actions.ts';
 
 export function LoginContainer() {
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (emailRef.current !== null && passwordRef !== null) {
-      dispatch(loginAction({
-        email: emailRef.current.value,
-        password: passwordRef.current?.value
-      }));
+    const formData = new FormData(event.currentTarget);
+
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    if (email && password) {
+      dispatch(loginAction({ email, password }));
     }
   };
 
@@ -26,11 +26,11 @@ export function LoginContainer() {
         <form className="login__form form" action="#" method="post" onSubmit={handleSubmitForm}>
           <div className="login__input-wrapper form__input-wrapper">
             <label className="visually-hidden">E-mail</label>
-            <input className="login__input form__input" type="email" name="email" placeholder="Email" ref={emailRef} required/>
+            <input className="login__input form__input" type="email" name="email" placeholder="Email" required/>
           </div>
           <div className="login__input-wrapper form__input-wrapper">
             <label className="visually-hidden">Password</label>
-            <input className="login__input form__input" type="password" name="password" placeholder="Password" ref={passwordRef} required/>
+            <input className="login__input form__input" type="password" name="password" placeholder="Password" required/>
           </div>
           <button className="login__submit form__submit button" type="submit">Sign in</button>
         </form>
