@@ -1,10 +1,13 @@
 import {FormEvent} from 'react';
 import { useAppDispatch } from '../../hooks';
 import {loginAction} from '../../store/user-api-actions.ts';
+import {AppRoute, Cities} from '../../const.ts';
+import {Link} from 'react-router';
+import {changeCity} from '../../store/city-slice/city-slice.ts';
 
 export function LoginContainer() {
-
   const dispatch = useAppDispatch();
+  const randomCity = Object.values(Cities)[Math.floor(Math.random() * Object.entries(Cities).length)];
 
   const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,9 +40,12 @@ export function LoginContainer() {
       </section>
       <section className="locations locations--login locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>Amsterdam</span>
-          </a>
+          <Link className="locations__item-link" to={AppRoute.Main} onClick={() => {
+            dispatch(changeCity(randomCity));
+          }}
+          >
+            <span>{randomCity.name}</span>
+          </Link>
         </div>
       </section>
     </div>
