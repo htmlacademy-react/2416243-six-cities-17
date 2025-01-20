@@ -12,6 +12,8 @@ import {useEffect} from 'react';
 import {MAX_NEAREST_OFFERS} from '../../const.ts';
 import {NotFoundPage} from '../not-found-page/not-found-page.tsx';
 import {Helmet} from 'react-helmet-async';
+import {getCurrentCity} from '../../store/city-slice/selectors.ts';
+import {getCurrentOffer, getNearestOffers} from '../../store/offers-slice/selectors.ts';
 
 interface OfferPageProps {
   onOfferClick: OfferClickType;
@@ -30,9 +32,9 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
     }
   }, [currentId]);
 
-  const currentCity = useAppSelector((state) => state.city);
-  const currentOffer = useAppSelector((state) => state.currentOffer);
-  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0, MAX_NEAREST_OFFERS);
+  const currentCity = useAppSelector(getCurrentCity);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const nearestOffers = useAppSelector(getNearestOffers).slice(0, MAX_NEAREST_OFFERS);
 
   if (currentOffer) {
     return (

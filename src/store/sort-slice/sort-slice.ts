@@ -1,12 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {SortSlice} from '../../types/state.ts';
+import {NameSpace} from '../../const.ts';
 
 const initialState: SortSlice = {
   isSortOptionsOpen: false
 };
 
 export const sortSlice = createSlice({
-  name: 'sort',
+  name: NameSpace.Sort,
   initialState,
   reducers: {
     openSort: (state) => {

@@ -6,7 +6,7 @@ import {
   fetchNearestOffersAction,
   fetchOffersAction, updateOfferFavoriteStatusAction
 } from '../data-api-actions.ts';
-import {Sorts} from '../../const.ts';
+import {NameSpace, Sorts} from '../../const.ts';
 import {placeSorting} from '../../utlis/place-sorting.ts';
 
 const initialState: OffersSlice = {
@@ -19,7 +19,7 @@ const initialState: OffersSlice = {
 };
 
 export const offersSlice = createSlice({
-  name: 'offers',
+  name: NameSpace.Offers,
   initialState,
   reducers: {
     changeSort: (state, action: PayloadAction<string>) => {

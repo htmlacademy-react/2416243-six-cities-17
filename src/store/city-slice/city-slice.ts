@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {CitySlice} from '../../types/state.ts';
-import {Cities} from '../../const.ts';
+import {Cities, NameSpace} from '../../const.ts';
 import {CityType} from '../../types/offer.ts';
 
 const initialState: CitySlice = {
@@ -8,7 +8,7 @@ const initialState: CitySlice = {
 };
 
 export const citySlice = createSlice({
-  name: 'city',
+  name: NameSpace.City,
   initialState,
   reducers: {
     changeCity: (state, action: PayloadAction<CityType>) => {

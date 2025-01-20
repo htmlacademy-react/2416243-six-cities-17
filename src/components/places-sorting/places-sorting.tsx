@@ -1,25 +1,28 @@
 import {useNavigate} from 'react-router';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeSorting, closeSorting, openSorting} from '../../store/action.ts';
 import {AppRoute, Sorts} from '../../const.ts';
+import {getCurrentSort} from '../../store/offers-slice/selectors.ts';
+import {closeSort, openSort} from '../../store/sort-slice/sort-slice.ts';
+import {changeSort} from '../../store/offers-slice/offers-slice.ts';
+import {getSortOpenStatus} from '../../store/sort-slice/selectors.ts';
 
 export function PlacesSorting() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isOpened = useAppSelector((state) => state.isSortingOpen);
-  const currentSortingType = useAppSelector((state) => state.sort);
+  const isOpened = useAppSelector(getSortOpenStatus);
+  const currentSortingType = useAppSelector(getCurrentSort);
 
   const handlePlaceSortingFormClick = () => {
     if (isOpened) {
-      dispatch(closeSorting());
+      dispatch(closeSort());
     } else {
-      dispatch(openSorting());
+      dispatch(openSort());
     }
     navigate(AppRoute.Main);
   };
 
   const handlePlaceSortingChange = (sortingType: string) => {
-    dispatch(changeSorting(sortingType));
+    dispatch(changeSort(sortingType));
     navigate(AppRoute.Main);
   };
 
@@ -30,7 +33,7 @@ export function PlacesSorting() {
       method="get"
       onClick={handlePlaceSortingFormClick}
       onMouseLeave={() => {
-        dispatch(closeSorting());
+        dispatch(closeSort());
       }}
     >
       <span className="places__sorting-caption">Sort by</span>

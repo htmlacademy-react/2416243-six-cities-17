@@ -3,6 +3,8 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
 import {logoutAction} from '../../store/user-api-actions.ts';
+import {getAuthorizationStatus, getUserData} from '../../store/user-slice/selectors.ts';
+import {getFavoriteOffers} from '../../store/offers-slice/selectors.ts';
 
 interface HeaderProps {
   isNavHidden?: boolean;
@@ -11,9 +13,9 @@ interface HeaderProps {
 export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
   const dispatch = useAppDispatch();
 
-  const isAuthorized = useAppSelector((state) => state.authorizationStatus) === AuthorizationStatus.Auth;
-  const userData = useAppSelector((state) => state.user);
-  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
+  const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
+  const userData = useAppSelector(getUserData);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   return (
     <header className="header">

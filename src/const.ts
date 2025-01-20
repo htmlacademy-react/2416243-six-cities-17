@@ -131,3 +131,12 @@ export const MAX_IMAGES_PER_OFFER = 6;
 export const MAX_NEAREST_OFFERS = 3;
 
 export const MAX_REVIEW_SHOWN = 10;
+
+export enum NameSpace {
+  User = 'user',
+  Offers = 'offers',
+  Comments = 'comments',
+  Sort = 'sort',
+  City = 'city',
+  Error = 'error'
+}

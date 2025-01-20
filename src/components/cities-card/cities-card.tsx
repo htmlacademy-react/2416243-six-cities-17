@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router';
 import {updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
 import {citiesCardSettings} from './cities-card-settings.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
 
 interface CitiesCardProps {
   offer: OfferType;
@@ -31,7 +32,7 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAuthorized = useAppSelector((state) => state.authorizationStatus) === AuthorizationStatus.Auth;
+  const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
   const handleFavoriteButtonClick = () => {
     if (!isAuthorized) {

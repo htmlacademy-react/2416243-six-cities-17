@@ -1,9 +1,10 @@
 import './loader.css';
 import {CSSProperties} from 'react';
 import {useAppSelector} from '../../hooks';
+import {getOffersDataLoadingStatus} from '../../store/offers-slice/selectors.ts';
 
 export function Loader() {
-  const loader = useAppSelector((state) => state.isDataLoading);
+  const loader = useAppSelector(getOffersDataLoadingStatus);
 
   return loader
     ? (
