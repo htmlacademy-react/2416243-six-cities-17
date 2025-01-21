@@ -12,6 +12,7 @@ import {resetSort} from '../../store/offers-slice/offers-slice.ts';
 import {getOffers} from '../../store/offers-slice/selectors.ts';
 import {getCurrentCity} from '../../store/city-slice/selectors.ts';
 import {closeSort} from '../../store/sort-slice/sort-slice.ts';
+import {CitiesPlacesListEmpty} from '../../components/cities-places-list/cities-places-list-empty.tsx';
 
 interface MainPageProps {
   onOfferClick: OfferClickType;
@@ -45,24 +46,30 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
         <h1 className="visually-hidden">Cities</h1>
         <CitiesLocationList onCityLocationClick={handleCitiesLocationClick}/>
         <div className="cities">
-          <div className="cities__places-container container">
-            <CitiesPlacesList
-              city={currentCity}
-              offers={offersInCurrentCity}
-              cardType={PlaceCardType.Main}
-              onOfferClick={onOfferClick}
-              onOfferHover={onOfferHover}
-            />
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map
-                  city={currentCity}
-                  offers={offersInCurrentCity}
-                  activeCard={activeCard}
-                />
-              </section>
-            </div>
-          </div>
+          {
+            offersInCurrentCity.length === 0
+              ? <CitiesPlacesListEmpty city={currentCity}/>
+              : (
+                <div className="cities__places-container container">
+                  <CitiesPlacesList
+                    city={currentCity}
+                    offers={offersInCurrentCity}
+                    cardType={PlaceCardType.Main}
+                    onOfferClick={onOfferClick}
+                    onOfferHover={onOfferHover}
+                  />
+                  <div className="cities__right-section">
+                    <section className="cities__map map">
+                      <Map
+                        city={currentCity}
+                        offers={offersInCurrentCity}
+                        activeCard={activeCard}
+                      />
+                    </section>
+                  </div>
+                </div>
+              )
+          }
         </div>
       </main>
     </div>
