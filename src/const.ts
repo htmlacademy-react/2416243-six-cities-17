@@ -1,6 +1,5 @@
 import {RatingType} from './types/rating.ts';
 import {MapIconsType} from './types/map.ts';
-import {CityType} from './types/offer.ts';
 
 export enum AppRoute {
   Main = '/',
@@ -48,15 +47,6 @@ export const MapIcon: MapIconsType = {
     iconSize: [27, 39],
     iconAnchor: [13.5, 39]
   },
-};
-
-export const cityRef: CityType = {
-  name: 'Amsterdam',
-  location: {
-    latitude: 52.3809553943508,
-    longitude: 4.85309666406198,
-    zoom: 14
-  }
 };
 
 export const Cities = {
@@ -141,3 +131,12 @@ export const MAX_IMAGES_PER_OFFER = 6;
 export const MAX_NEAREST_OFFERS = 3;
 
 export const MAX_REVIEW_SHOWN = 10;
+
+export enum NameSpace {
+  User = 'user',
+  Offers = 'offers',
+  Comments = 'comments',
+  Sort = 'sort',
+  City = 'city',
+  Error = 'error'
+}

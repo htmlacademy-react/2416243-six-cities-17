@@ -1,14 +1,15 @@
-import {store} from '../../store';
 import {Cities} from '../../const.ts';
 import {CityType} from '../../types/offer.ts';
 import {Link} from 'react-router';
+import {useAppSelector} from '../../hooks';
+import {getCurrentCity} from '../../store/city-slice/selectors.ts';
 
 interface CitiesLocationListProps {
   onCityLocationClick: (city: CityType) => void;
 }
 
 export function CitiesLocationList({onCityLocationClick}: Readonly<CitiesLocationListProps>) {
-  const currentCity = store.getState().city.name;
+  const currentCity = useAppSelector(getCurrentCity);
 
   return (
     <div className="tabs">
@@ -19,7 +20,7 @@ export function CitiesLocationList({onCityLocationClick}: Readonly<CitiesLocatio
               onCityLocationClick(city);
             }}
             >
-              <Link className={`locations__item-link tabs__item ${currentCity === city.name ? 'tabs__item--active' : ''}`} to={''}>
+              <Link className={`locations__item-link tabs__item ${currentCity.name === city.name ? 'tabs__item--active' : ''}`} to={''}>
                 <span>{city.name}</span>
               </Link>
             </li>

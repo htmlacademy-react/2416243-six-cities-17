@@ -4,14 +4,16 @@ import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus, MAX_REVIEW_SHOWN} from '../../const.ts';
 import {Review} from '../../types/reviews.ts';
 import {compareStringDates} from '../../utlis/date.ts';
+import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
+import {getComments} from '../../store/comments-slice/selectors.ts';
 
 interface ReviewsProps {
   offerId: string;
 }
 
 export function Reviews({offerId}: Readonly<ReviewsProps>) {
-  const currentOfferReviews = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const currentOfferReviews = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const shownCurrentOfferReviews = [...currentOfferReviews]
     .sort((firstReview: Review, secondReview: Review) => compareStringDates(firstReview.date, secondReview.date))

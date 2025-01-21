@@ -1,8 +1,10 @@
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
-import {AppRoute, PlaceCardType, starLength} from '../../const.ts';
-import {Link} from 'react-router';
-import {store} from '../../store';
+import {AppRoute, AuthorizationStatus, PlaceCardType, starLength} from '../../const.ts';
+import {Link, useNavigate} from 'react-router';
 import {updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
+import {citiesCardSettings} from './cities-card-settings.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
 
 interface CitiesCardProps {
   offer: OfferType;
@@ -20,32 +22,24 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
   const placeName = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
   const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 
-  let articleClass = '';
-  let infoDivClass = '';
-  let imageWrapper = '';
-  let cardImageWidth = 260;
-  let cardImageHeight = 200;
+  const {
+    articleClass,
+    infoDivClass,
+    imageWrapper,
+    cardImageWidth,
+    cardImageHeight
+  } = citiesCardSettings(cardType);
 
-  switch (cardType) {
-    case PlaceCardType.Main:
-      articleClass = 'cities__card';
-      imageWrapper = 'cities__image-wrapper';
-      break;
-    case PlaceCardType.Favorites:
-      articleClass = 'favorites__card';
-      infoDivClass = 'favorites__card-info';
-      imageWrapper = 'favorites__image-wrapper';
-      cardImageWidth = 150;
-      cardImageHeight = 110;
-      break;
-    case PlaceCardType.Near:
-      articleClass = 'near-places__card';
-      imageWrapper = 'near-places__image-wrapper';
-      break;
-  }
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
 
   const handleFavoriteButtonClick = () => {
-    store.dispatch(updateOfferFavoriteStatusAction(offer));
+    if (!isAuthorized) {
+      navigate(AppRoute.Login);
+    } else {
+      dispatch(updateOfferFavoriteStatusAction(offer));
+    }
   };
 
   return (

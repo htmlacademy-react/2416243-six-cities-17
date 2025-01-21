@@ -1,7 +1,7 @@
-import {setError} from '../store/action.ts';
 import {store} from '../store';
 import {clearErrorAction} from '../store/api-actions.ts';
 import {AxiosError} from 'axios';
+import {setError} from '../store/error-slice/error-slice.ts';
 
 type ApiErrorResponse = {
   status: number;
