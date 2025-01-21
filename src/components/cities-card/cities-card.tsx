@@ -1,10 +1,11 @@
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
-import {AppRoute, AuthorizationStatus, PlaceCardType, starLength} from '../../const.ts';
+import {AppRoute, AuthorizationStatus, PlaceCardType} from '../../const.ts';
 import {Link, useNavigate} from 'react-router';
 import {updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
 import {citiesCardSettings} from './cities-card-settings.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
+import {capitalizeFirstLetter, formatStarRating} from '../../utlis/common.ts';
 
 interface CitiesCardProps {
   offer: OfferType;
@@ -14,13 +15,20 @@ interface CitiesCardProps {
 }
 
 export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readonly<CitiesCardProps>) {
-  const {id, title, price, type, previewImage, isPremium, isFavorite, rating} = offer;
+  const {
+    id,
+    title,
+    price,
+    type,
+    previewImage,
+    isPremium,
+    isFavorite,
+    rating
+  } = offer;
+
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
-  const placeRating = `${Math.round(rating) * starLength}%`;
-  const placeName = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
-  const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
 
   const {
     articleClass,
@@ -83,14 +91,14 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: placeRating}}></span>
+            <span style={{width: formatStarRating(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${id}`}>{placeName}</Link>
+          <Link to={`${AppRoute.Offer}/${id}`}>{capitalizeFirstLetter(title)}</Link>
         </h2>
-        <p className="place-card__type">{placeType}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

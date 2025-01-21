@@ -1,6 +1,7 @@
 import {Review} from '../../types/reviews.ts';
 import {getStringDate} from '../../utlis/date.ts';
-import {DateFormat, starLength} from '../../const.ts';
+import {DateFormat} from '../../const.ts';
+import {formatStarRating} from '../../utlis/common.ts';
 
 interface ReviewItemProps {
   review: Review;
@@ -12,7 +13,6 @@ export function ReviewItem({review}: Readonly<ReviewItemProps>) {
 
   const reviewDate = getStringDate(date, DateFormat.DATE);
   const reviewDateText = getStringDate(date, DateFormat.MONTH_YEAR);
-  const placeRating = `${Math.round(rating) * starLength}%`;
 
   return (
     <li className="reviews__item">
@@ -29,7 +29,7 @@ export function ReviewItem({review}: Readonly<ReviewItemProps>) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: placeRating}}></span>
+            <span style={{width: formatStarRating(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

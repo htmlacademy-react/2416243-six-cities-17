@@ -1,6 +1,6 @@
 import {Reviews} from '../reviews/reviews.tsx';
-import {starLength} from '../../const.ts';
 import {CurrentOfferType} from '../../types/offer.ts';
+import {capitalizeFirstLetter, formatStarRating} from '../../utlis/common.ts';
 
 interface OfferDetailsProps {
   currentOffer: CurrentOfferType;
@@ -25,9 +25,6 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
   const bookmarkButtonClass = isFavorite
     ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
     : 'place-card__bookmark-button button';
-  const placeRating = `${Math.round(rating) * starLength}%`;
-  const placeType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-  const placeHostName = host.name.charAt(0).toUpperCase() + host.name.slice(1).toLowerCase();
   const placeBedrooms = bedrooms > 1 ? `${bedrooms} Bedrooms` : `${bedrooms} Bedroom`;
   const placeMaxAdults = maxAdults > 1 ? `${maxAdults} adults` : `${maxAdults} adult`;
 
@@ -47,14 +44,14 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
       </div>
       <div className="offer__rating rating">
         <div className="offer__stars rating__stars">
-          <span style={{width: placeRating}}></span>
+          <span style={{width: formatStarRating(rating)}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
         <span className="offer__rating-value rating__value">{Math.round(rating)}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
-          {placeType}
+          {capitalizeFirstLetter(type)}
         </li>
         <li className="offer__feature offer__feature--bedrooms">
           {placeBedrooms}
@@ -86,7 +83,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
             />
           </div>
           <span className="offer__user-name">
-            {placeHostName}
+            {capitalizeFirstLetter(host.name)}
           </span>
           {host.isPro
             ? (
