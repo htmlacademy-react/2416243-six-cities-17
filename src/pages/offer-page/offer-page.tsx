@@ -5,9 +5,8 @@ import {OfferGallery} from '../../components/offer-gallery/offer-gallery.tsx';
 import {OfferDetails} from '../../components/offer-details/offer-details.tsx';
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {useParams} from 'react-router';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchCommentsAction, fetchCurrentOfferAction, fetchNearestOffersAction} from '../../store/data-api-actions.ts';
-import {store} from '../../store';
 import {useEffect} from 'react';
 import {MAX_NEAREST_OFFERS} from '../../const.ts';
 import {NotFoundPage} from '../not-found-page/not-found-page.tsx';
@@ -23,14 +22,15 @@ interface OfferPageProps {
 
 export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<OfferPageProps>) {
   const {id: currentId} = useParams();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (currentId) {
-      store.dispatch(fetchCurrentOfferAction(currentId));
-      store.dispatch(fetchCommentsAction(currentId));
-      store.dispatch(fetchNearestOffersAction(currentId));
+      dispatch(fetchCurrentOfferAction(currentId));
+      dispatch(fetchCommentsAction(currentId));
+      dispatch(fetchNearestOffersAction(currentId));
     }
-  }, [currentId]);
+  }, [currentId, dispatch]);
 
   const currentCity = useAppSelector(getCurrentCity);
   const currentOffer = useAppSelector(getCurrentOffer);
@@ -40,7 +40,7 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
     return (
       <div className="page">
         <Helmet>
-          6 cities: offer
+          <title>6 cities: {currentOffer.title}</title>
         </Helmet>
         <Header/>
 
