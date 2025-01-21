@@ -40,7 +40,7 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
     return (
       <div className="page">
         <Helmet>
-          6 cities: offer
+          <title>6 cities: {currentOffer.title}</title>
         </Helmet>
         <Header/>
 
