@@ -53,11 +53,11 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
               <OfferDetails currentOffer={currentOffer}/>
             </div>
             <section className="offer__map map">
-              <Map city={currentCity} offers={nearestOffers} activeCard={activeCard}/>
+              <Map city={currentCity} offers={[...nearestOffers, currentOffer]} activeCard={activeCard}/>
             </section>
           </section>
           <div className="container">
-            <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
+            <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover} currentOffer={currentOffer}/>
           </div>
         </main>
       </div>
