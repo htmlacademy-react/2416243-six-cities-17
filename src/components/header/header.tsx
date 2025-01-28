@@ -5,7 +5,6 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/user-api-actions.ts';
 import {getAuthorizationStatus, getUserData} from '../../store/user-slice/selectors.ts';
 import {getOffers} from '../../store/offers-slice/selectors.ts';
-import {fetchOffersAction} from '../../store/data-api-actions.ts';
 
 interface HeaderProps {
   isNavHidden?: boolean;
