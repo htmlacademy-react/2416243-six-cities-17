@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 
 import {logoutAction} from '../../store/user-api-actions.ts';
 import {getAuthorizationStatus, getUserData} from '../../store/user-slice/selectors.ts';
-import {getFavoriteOffers} from '../../store/offers-slice/selectors.ts';
+import {getOffers} from '../../store/offers-slice/selectors.ts';
 
 interface HeaderProps {
   isNavHidden?: boolean;
@@ -15,7 +15,8 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
 
   const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
   const userData = useAppSelector(getUserData);
-  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const favoriteOffersCount = useAppSelector(getOffers)
+    .filter((offer) => offer.isFavorite).length;
 
   return (
     <header className="header">
@@ -38,7 +39,7 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
                           <div className="header__avatar-wrapper user__avatar-wrapper">
                           </div>
                           <span className="header__user-name user__name">{userData?.email}</span>
-                          <span className="header__favorite-count">{favoriteOffers.length}</span>
+                          <span className="header__favorite-count">{favoriteOffersCount}</span>
                         </Link>
                       </li>
                       <li className="header__nav-item">

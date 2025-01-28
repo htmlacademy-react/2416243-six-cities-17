@@ -10,6 +10,7 @@ interface ReviewFormProps {
 export function ReviewForm({offerId}: Readonly<ReviewFormProps>) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [isFormSending, setIsFormSending] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -27,11 +28,15 @@ export function ReviewForm({offerId}: Readonly<ReviewFormProps>) {
 
   const handleReviewFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    dispatch(postReviewCommentAction({offerId, rating, comment}))
-      .then(() => {
-        handleReviewFormClear();
-      });
+    setIsFormSending(true);
+    try {
+      dispatch(postReviewCommentAction({offerId, rating, comment}))
+        .then(() => {
+          handleReviewFormClear();
+        });
+    } finally {
+      setIsFormSending(false);
+    }
   };
 
   const isValid =
@@ -53,6 +58,7 @@ export function ReviewForm({offerId}: Readonly<ReviewFormProps>) {
               type="radio"
               onChange={handleRatingChange}
               checked={Rating[ratingKey] === rating}
+              disabled={isFormSending}
             />
             <label
               htmlFor={`${Rating[ratingKey]}-stars`}
@@ -74,15 +80,16 @@ export function ReviewForm({offerId}: Readonly<ReviewFormProps>) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleCommentChange}
         value={comment}
+        disabled={isFormSending}
       />
 
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
-          describe your stay with at least
+          describe your stay with at least {' '}
           <b className="reviews__text-amount">{ReviewCommentLengthLimit.Min} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isValid}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isValid || isFormSending}>Submit</button>
       </div>
     </form>
   );

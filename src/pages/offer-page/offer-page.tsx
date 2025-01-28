@@ -36,33 +36,35 @@ export function OfferPage({onOfferClick, onOfferHover, activeCard}: Readonly<Off
   const currentOffer = useAppSelector(getCurrentOffer);
   const nearestOffers = useAppSelector(getNearestOffers).slice(0, MAX_NEAREST_OFFERS);
 
-  if (currentOffer) {
-    return (
-      <div className="page">
-        <Helmet>
-          <title>6 cities: {currentOffer.title}</title>
-        </Helmet>
-        <Header/>
-
-        <main className="page__main page__main--offer">
-          <section className="offer">
-            <div className="offer__gallery-container container">
-              <OfferGallery images={currentOffer.images}/>
-            </div>
-            <div className="offer__container container">
-              <OfferDetails currentOffer={currentOffer}/>
-            </div>
-            <section className="offer__map map">
-              <Map city={currentCity} offers={nearestOffers} activeCard={activeCard}/>
-            </section>
-          </section>
-          <div className="container">
-            <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover}/>
-          </div>
-        </main>
-      </div>
-    );
+  if (!currentOffer) {
+    return <NotFoundPage/>;
   }
 
-  return <NotFoundPage/>;
+  return (
+    <div className="page">
+      <Helmet>
+        <title>6 cities: {currentOffer.title}</title>
+      </Helmet>
+      <Header/>
+
+      <main className="page__main page__main--offer">
+        <section className="offer">
+          <div className="offer__gallery-container container">
+            <OfferGallery images={currentOffer.images}/>
+          </div>
+          <div className="offer__container container">
+            <OfferDetails currentOffer={currentOffer}/>
+          </div>
+          <section className="offer__map map">
+            <Map city={currentCity} offers={[...nearestOffers, currentOffer]} activeCard={activeCard}/>
+          </section>
+        </section>
+        <div className="container">
+          <NearPlaces offers={nearestOffers} onOfferClick={onOfferClick} onOfferHover={onOfferHover} currentOffer={currentOffer}/>
+        </div>
+      </main>
+    </div>
+  );
+
+
 }

@@ -57,8 +57,11 @@ export const offersSlice = createSlice({
         state.nearestOffers = action.payload;
       })
       .addCase(updateOfferFavoriteStatusAction.fulfilled, (state, action) => {
-        state.offers = action.payload;
-        state.favoriteOffers = action.payload.filter((offer) => offer.isFavorite);
+        const id = action.payload.id;
+        state.offers = state.offers.map((offer) =>
+          offer.id === id
+            ? {...offer, isFavorite: !offer.isFavorite}
+            : offer);
       });
   }
 });

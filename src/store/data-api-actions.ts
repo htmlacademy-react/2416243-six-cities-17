@@ -53,7 +53,7 @@ export const fetchFavoriteOffersAction = createAsyncThunk<OfferType[], undefined
   }
 );
 
-export const updateOfferFavoriteStatusAction = createAsyncThunk<OfferType[], {id: string; isFavorite: boolean}, {
+export const updateOfferFavoriteStatusAction = createAsyncThunk<OfferType, {id: string; isFavorite: boolean}, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -61,8 +61,7 @@ export const updateOfferFavoriteStatusAction = createAsyncThunk<OfferType[], {id
   'data/updateOfferFavoriteStatusAction',
   async ({id, isFavorite}, {extra: api}) => {
     const status = isFavorite ? 0 : 1;
-    await api.post<OfferType[]>(`${APIRoute.Favorite}/${id}/${status}`);
-    const {data} = await api.get<OfferType[]>(APIRoute.Offers);
+    const {data} = await api.post<OfferType>(`${APIRoute.Favorite}/${id}/${status}`);
     return data;
   }
 );
