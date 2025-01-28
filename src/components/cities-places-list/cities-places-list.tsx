@@ -22,7 +22,7 @@ export function CitiesPlacesList({
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{offers.length} places to stay in {city.name}</b>
+      <b className="places__found">{offers.length} {offers.length > 1 ? 'places' : 'place'} to stay in {city.name}</b>
       <PlacesSorting/>
       <div className="cities__places-list places__list tabs__content" onMouseLeave={() => onOfferHover()}>
         {offers.map((offer) => (

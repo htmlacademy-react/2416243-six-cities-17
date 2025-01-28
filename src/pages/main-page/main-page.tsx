@@ -27,6 +27,7 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getCurrentCity);
   const offersInCurrentCity = offers.filter((offer) => offer.city.name === currentCity.name);
+  const noOffersInCurrentCity = offersInCurrentCity.length === 0;
 
   const handleCitiesLocationClick = (city: CityType) => {
     dispatch(changeCity(city));
@@ -36,7 +37,7 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
   };
 
   return (
-    <div className="page page--gray page--main">
+    <div className={`page page--gray page--main ${noOffersInCurrentCity ? 'page__main--index-empty' : ''}`}>
       <Helmet>
         <title>6 cities</title>
       </Helmet>
@@ -47,7 +48,7 @@ export function MainPage({onOfferClick, onOfferHover, activeCard}: Readonly<Main
         <CitiesLocationList onCityLocationClick={handleCitiesLocationClick}/>
         <div className="cities">
           {
-            offersInCurrentCity.length === 0
+            noOffersInCurrentCity
               ? <CitiesPlacesListEmpty city={currentCity}/>
               : (
                 <div className="cities__places-container container">

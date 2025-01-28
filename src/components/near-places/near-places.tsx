@@ -6,7 +6,7 @@ interface NearPlacesProps {
   offers: OfferType[];
   onOfferClick: OfferClickType;
   onOfferHover: OfferHoverType;
-  currentOffer: OfferType & {
+  currentOffer?: OfferType & {
     images: string[];
     description: string;
     goods: string[];

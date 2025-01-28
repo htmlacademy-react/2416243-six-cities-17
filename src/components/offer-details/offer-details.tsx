@@ -1,12 +1,22 @@
 import {Reviews} from '../reviews/reviews.tsx';
 import {CurrentOfferType} from '../../types/offer.ts';
 import {capitalizeFirstLetter, formatStarRating} from '../../utlis/common.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useNavigate} from 'react-router';
+import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import {fetchOffersAction, updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
+import {useState} from 'react';
 
 interface OfferDetailsProps {
   currentOffer: CurrentOfferType;
 }
 
 export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
+
   const {
     id,
     title,
@@ -21,12 +31,32 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
     maxAdults,
     bedrooms,
   } = currentOffer;
-
-  const bookmarkButtonClass = isFavorite
-    ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
-    : 'place-card__bookmark-button button';
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const bookmarkButtonActiveClass = isFavorite
+    ? 'place-card__bookmark-button--active'
+    : '';
+  const offerAvatarWrapperProClass = host.isPro
+    ? 'offer__avatar-wrapper--pro'
+    : '';
   const placeBedrooms = bedrooms > 1 ? `${bedrooms} Bedrooms` : `${bedrooms} Bedroom`;
+
   const placeMaxAdults = maxAdults > 1 ? `${maxAdults} adults` : `${maxAdults} adult`;
+
+  const handleFavoriteButtonClick = () => {
+    if (!isAuthorized) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+      dispatch(updateOfferFavoriteStatusAction(currentOffer))
+        .then(() => dispatch(fetchOffersAction()));
+
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
     <div className="offer__wrapper">
@@ -35,7 +65,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
         <h1 className="offer__name">
           {title}
         </h1>
-        <button className={bookmarkButtonClass} type="button">
+        <button className={`place-card__bookmark-button button ${bookmarkButtonActiveClass}`} type="button" onClick={handleFavoriteButtonClick} disabled={isUpdating}>
           <svg className="offer__bookmark-icon" width="31" height="33">
             <use xlinkHref="#icon-bookmark"></use>
           </svg>
@@ -47,7 +77,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
           <span style={{width: formatStarRating(rating)}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
-        <span className="offer__rating-value rating__value">{Math.round(rating)}</span>
+        <span className="offer__rating-value rating__value">{rating}</span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
@@ -77,7 +107,7 @@ export function OfferDetails({currentOffer}: Readonly<OfferDetailsProps>) {
       <div className="offer__host">
         <h2 className="offer__host-title">Meet the host</h2>
         <div className="offer__host-user user">
-          <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+          <div className={`offer__avatar-wrapper user__avatar-wrapper ${offerAvatarWrapperProClass}`}>
             <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74"
               alt="Host avatar"
             />

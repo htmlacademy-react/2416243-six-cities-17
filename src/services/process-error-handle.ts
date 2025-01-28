@@ -11,7 +11,9 @@ type ApiErrorResponse = {
 }
 
 export const processErrorHandle = (error: unknown) => {
-  if (error instanceof AxiosError && error.response) {
+  if (typeof error === 'string') {
+    store.dispatch(setError(error));
+  } else if (error instanceof AxiosError && error.response) {
     const errorResponse = error.response as ApiErrorResponse;
 
     store.dispatch(setError(`${errorResponse.status} ${errorResponse.data.message}`));

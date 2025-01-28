@@ -38,6 +38,10 @@ export function App() {
     setActiveCard(currentPoint);
   };
 
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return;
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>

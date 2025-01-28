@@ -1,11 +1,16 @@
 import {OfferClickType, OfferHoverType, OfferType} from '../../types/offer.ts';
 import {AppRoute, AuthorizationStatus, PlaceCardType} from '../../const.ts';
 import {Link, useNavigate} from 'react-router';
-import {updateOfferFavoriteStatusAction} from '../../store/data-api-actions.ts';
+import {
+  fetchFavoriteOffersAction,
+  fetchOffersAction,
+  updateOfferFavoriteStatusAction
+} from '../../store/data-api-actions.ts';
 import {citiesCardSettings} from './cities-card-settings.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
 import {capitalizeFirstLetter, formatStarRating} from '../../utlis/common.ts';
+import {useState} from 'react';
 
 interface CitiesCardProps {
   offer: OfferType;
@@ -26,10 +31,6 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
     rating
   } = offer;
 
-  const bookmarkButtonClass = isFavorite
-    ? 'place-card__bookmark-button button place-card__bookmark-button--active button'
-    : 'place-card__bookmark-button button';
-
   const {
     articleClass,
     infoDivClass,
@@ -41,12 +42,24 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isAuthorized = useAppSelector(getAuthorizationStatus) === AuthorizationStatus.Auth;
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const bookmarkButtonActiveClass = isFavorite
+    ? 'place-card__bookmark-button--active'
+    : '';
 
   const handleFavoriteButtonClick = () => {
     if (!isAuthorized) {
       navigate(AppRoute.Login);
-    } else {
-      dispatch(updateOfferFavoriteStatusAction(offer));
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+      dispatch(updateOfferFavoriteStatusAction(offer))
+        .then(() => dispatch(fetchOffersAction()))
+        .then(() => dispatch(fetchFavoriteOffersAction()));
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -79,9 +92,10 @@ export function CitiesCard({offer, cardType, onOfferClick, onOfferHover}: Readon
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={bookmarkButtonClass}
+            className={`place-card__bookmark-button button ${bookmarkButtonActiveClass}`}
             type="button"
             onClick={handleFavoriteButtonClick}
+            disabled={isUpdating}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

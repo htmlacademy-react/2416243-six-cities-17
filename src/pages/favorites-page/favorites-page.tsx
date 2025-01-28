@@ -3,10 +3,12 @@ import {Footer} from '../../components/footer/footer.tsx';
 import {OfferClickType, OfferHoverType} from '../../types/offer.ts';
 import {CitiesCard} from '../../components/cities-card/cities-card.tsx';
 import {Cities, PlaceCardType} from '../../const.ts';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {FavoritesEmptyList} from '../../components/favorites-empty-list/favorites-empty-list.tsx';
 import {Helmet} from 'react-helmet-async';
 import {getFavoriteOffers} from '../../store/offers-slice/selectors.ts';
+import {useEffect} from 'react';
+import {fetchFavoriteOffersAction} from '../../store/data-api-actions.ts';
 
 interface FavoritesPageProps {
   onOfferClick: OfferClickType;
@@ -14,19 +16,25 @@ interface FavoritesPageProps {
 }
 
 export function FavoritesPage({onOfferClick, onOfferHover}: Readonly<FavoritesPageProps>) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
+
   const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const isFavoriteOffersEmpty = favoriteOffers.length === 0;
 
   return (
-    <div className="page">
+    <div className={`page ${isFavoriteOffersEmpty ? 'page--favorites-empty' : ''}`}>
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>
       <Header/>
 
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites ${isFavoriteOffersEmpty ? 'page__main--favorites-empty' : ''}`}>
         <div className="page__favorites-container container">
           {
-            favoriteOffers.length !== 0
+            !isFavoriteOffersEmpty
               ? (
                 <section className="favorites">
                   <h1 className="favorites__title">Saved listing</h1>

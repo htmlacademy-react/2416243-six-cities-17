@@ -4,6 +4,8 @@ import {loginAction} from '../../store/user-api-actions.ts';
 import {AppRoute, Cities} from '../../const.ts';
 import {Link} from 'react-router';
 import {changeCity} from '../../store/city-slice/city-slice.ts';
+import {containsLetterAndDigit} from '../../utlis/common.ts';
+import {processErrorHandle} from '../../services/process-error-handle.ts';
 
 export function LoginContainer() {
   const dispatch = useAppDispatch();
@@ -17,8 +19,10 @@ export function LoginContainer() {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    if (email && password) {
+    if (email && password && containsLetterAndDigit(password)) {
       dispatch(loginAction({ email, password }));
+    } else {
+      processErrorHandle('Incorrect email or password');
     }
   };
 
