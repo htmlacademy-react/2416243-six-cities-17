@@ -1,7 +1,6 @@
 import {Link} from 'react-router';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-
 import {logoutAction} from '../../store/user-api-actions.ts';
 import {getAuthorizationStatus, getUserData} from '../../store/user-slice/selectors.ts';
 import {getOffers} from '../../store/offers-slice/selectors.ts';
