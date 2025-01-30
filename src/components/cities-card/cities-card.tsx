@@ -6,7 +6,7 @@ import {
   fetchOffersAction,
   updateOfferFavoriteStatusAction
 } from '../../store/data-api-actions.ts';
-import {citiesCardSettings} from './cities-card-settings.ts';
+import {citiesCardSettings} from '../../utlis/cities-card-settings.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getAuthorizationStatus} from '../../store/user-slice/selectors.ts';
 import {capitalizeFirstLetter, formatStarRating} from '../../utlis/common.ts';
