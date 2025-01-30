@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/user-api-actions.ts';
 import {getAuthorizationStatus, getUserData} from '../../store/user-slice/selectors.ts';
 import {getOffers} from '../../store/offers-slice/selectors.ts';
+import {fetchFavoriteOffersAction, fetchOffersAction} from '../../store/data-api-actions.ts';
 
 interface HeaderProps {
   isNavHidden?: boolean;
@@ -47,7 +48,9 @@ export function Header({isNavHidden = false}: Readonly<HeaderProps>) {
                           to={'#'}
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(logoutAction());
+                            dispatch(logoutAction())
+                              .then(() => dispatch(fetchFavoriteOffersAction()))
+                              .then(() => dispatch(fetchOffersAction()));
                           }}
                         >
                           <span className="header__signout">Sign out</span>

@@ -1,4 +1,4 @@
-import {PlaceCardType} from '../../const.ts';
+import {PlaceCardType} from '../const.ts';
 
 export function citiesCardSettings(cardType: PlaceCardType) {
   switch (cardType) {
